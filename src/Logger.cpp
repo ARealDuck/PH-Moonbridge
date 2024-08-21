@@ -1,80 +1,81 @@
+#include "Logger.h"
 #include <iostream>
 #include <vector>
 #include <string>
-#include <ctime>
 #include <chrono>
 #include <sstream>
 #include <iomanip>
+#include <fstream>
 using namespace std;
 
-// The Logger Object to be created
+// Date and Time functions
+string getCurrenttime() {
+    auto now = chrono::system_clock::now();
+    time_t ttime = chrono::system_clock::to_time_t(now);
+    tm* ltime = localtime(&ttime);
+    stringstream ts;
+    ts << put_time(ltime, "%H:%M:%S");
+    return ts.str();
+}
+
+string getCurrentDate() {
+    auto now = chrono::system_clock::now();
+    time_t ttime = chrono::system_clock::to_time_t(now);
+    tm* ltime = localtime(&ttime);
+    stringstream ts;
+    ts << put_time(ltime, "%Y-%m-%d");
+    return ts.str();
+}
+
 class Logger
 {
 private:
-    // Block to set loglevel data member
-    // enum function to restrict loglevels to a specific string
-    enum loglevels {
-        INFO,
-        WARN,
-        ERROR,
-        FATAL,
-        DEBUG
-    };
+// Define Parameters for Logger
+string file;
+string loggertime;
+string loggermessage;
+vector <string> loggerhistory;
 
-    // function to set enum values to string characters
-    string to_string(loglevels allowedloglevels) {
-        switch (allowedloglevels)
-        {
-        case INFO: return "[INFO]";
-            break;
-        case WARN: return "[WARN]";
-            break;
-        case ERROR: return "[ERROR]";
-            break;
-        case FATAL: return "[FATAL]";
-            break;
-        case DEBUG: return "[DEBUG]";
-            break;
-        default: return "[ERROR]";
-            break;
-        }
+string addlogformatter(const string&time, string&message) {
+    ostringstream ss;
+    ss << time << message;
+    return ss.str();
+}
 
-    }
-
-    // Block to set the logtime data member
-    // NOTE: data member should be set by a getlogtime function call made by the createlog function within public class section.
-    string logtime;
-
-    // Block to set logmessage data member
-    // NOTE: data member should be set by the createlog function within the public class section.
-    string logmessage;
-
-    // Block to set the finallog data member
-    // This should be created upon program launch
-    struct finallog {
-        string logtime; 
-        string loglevels; 
-        string logmessage;
-    };
-    
-    // Log storage identifier 
-    vector<finallog> logstorage;
+// Logger Constructor
+Logger(string&time, string&message)
+    : loggertime(time), loggermessage(message) {}
 
 public:
-    // function to call to add logs to the logger
-    void logging(loglevels) {
-        updatelogtime();
-
+// Logger init function
+static Logger initlogger (string&message) {
+    string time = getCurrenttime();
+    return Logger(time, message);
+}
+// Addlog function for adding logs to loggerhistory
+void Logger::addlog(string&message) {
+    string time = getCurrenttime();
+    string finallog = addlogformatter(time, message);
+    loggerhistory.push_back(finallog);
+    logfile();
+}
+//logfile update function
+void Logger::logfile() {
+    string filename = getCurrentDate() + ".txt";
+    ofstream logfile(filename);
+    try {
+    if(logfile.is_open()) {
+        for (const auto&  item : loggerhistory) {
+            logfile << item << endl;
+        }
+        logfile.close();
+    } else { 
+        throw 1;
     }
-
-    // function to call to grab the current time to set for logtime
-    void updatelogtime() {
-        auto now = chrono::system_clock::now();
-        time_t currentTime = chrono::system_clock::to_time_t(now);
-        ostringstream oss;
-        oss << put_time(localtime(&currentTime), "%H:%M:%S");
-        logtime = oss.str();
     }
-    
-    // 
+    catch (...) {
+        string error01 = "[WARN] Unable to create file:" + filename + ".txt";
+        addlog(error01);
+    }
+}
 };

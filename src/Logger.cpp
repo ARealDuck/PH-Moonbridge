@@ -9,7 +9,7 @@
 using namespace std;
 
 // Date and Time functions
-string getCurrenttime() {
+string logger::get_current_time() {
     auto now = chrono::system_clock::now();
     time_t ttime = chrono::system_clock::to_time_t(now);
     tm* ltime = localtime(&ttime);
@@ -18,7 +18,7 @@ string getCurrenttime() {
     return ts.str();
 }
 
-string getCurrentDate() {
+string logger::get_current_date() {
     auto now = chrono::system_clock::now();
     time_t ttime = chrono::system_clock::to_time_t(now);
     tm* ltime = localtime(&ttime);
@@ -27,31 +27,14 @@ string getCurrentDate() {
     return ts.str();
 }
 
-class Logger
-{
-private:
 // Define Parameters for Logger
-string file;
-string loggertime;
-string loggermessage;
-vector <string> loggerhistory;
-
-string addlogformatter(const string&time, string&message) {
+string logger::addlogformatter(const string&time, string&message) {
     ostringstream ss;
     ss << time << message;
     return ss.str();
 }
 
-// Logger Constructor
-Logger(string&time, string&message)
-    : loggertime(time), loggermessage(message) {}
-
 public:
-// Logger init function
-static Logger initlogger (string&message) {
-    string time = getCurrenttime();
-    return Logger(time, message);
-}
 // Addlog function for adding logs to loggerhistory
 void Logger::addlog(string&message) {
     string time = getCurrenttime();
@@ -78,4 +61,3 @@ void Logger::logfile() {
         addlog(error01);
     }
 }
-};

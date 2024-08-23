@@ -11,7 +11,7 @@ private:
     string loggermessage;
     vector <string> loggerhistory;
     // time and date methods
-    string get_current_time();
+    static string get_current_time();
     string get_current_date();
     // formatter method used by the addlog function
     string addlogformatter(const string &time, string &message);
@@ -23,10 +23,11 @@ private:
 public:
 // logger contructor init function
 static logger initlogger (string&message) {
-    string time = getCurrenttime();
+    string time = get_current_time();
     return logger(time, message);
 }
-
-
-}
+    void addlog(string&message);
+    void logfile();
+    
+};
 #endif

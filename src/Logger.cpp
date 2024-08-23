@@ -9,7 +9,7 @@
 using namespace std;
 
 // Date and Time functions
-string logger::get_current_time() {
+string static get_current_time() {
     auto now = chrono::system_clock::now();
     time_t ttime = chrono::system_clock::to_time_t(now);
     tm* ltime = localtime(&ttime);
@@ -34,17 +34,16 @@ string logger::addlogformatter(const string&time, string&message) {
     return ss.str();
 }
 
-public:
 // Addlog function for adding logs to loggerhistory
-void Logger::addlog(string&message) {
-    string time = getCurrenttime();
+void logger::addlog(string&message) {
+    string time = get_current_time();
     string finallog = addlogformatter(time, message);
     loggerhistory.push_back(finallog);
-    logfile();
+    logger::logfile();
 }
 //logfile update function
-void Logger::logfile() {
-    string filename = getCurrentDate() + ".txt";
+void logger::logfile() {
+    string filename = get_current_date() + ".txt";
     ofstream logfile(filename);
     try {
     if(logfile.is_open()) {

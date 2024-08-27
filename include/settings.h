@@ -1,34 +1,34 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
-
+#include <vector>
+#include <nlohmann/json.hpp>
+using namespace std;
 class settings
 {
 private:
-// settings constructor
-settings();
-// Load all settings from the designated json file
-// On failure, throws a WARN level message to the logger and create a new json settings file from the defaults
-    static void loadallsettings() {
+    //privately declared methods
+    //descriptions are found in the source file.
+    static void loadallsettings();
+    static void saveallsettings();
+    static void defaultsettings();
+    static vector <nlohmann::json> loaded_settings;
 
-    }
-
-    static void saveallsettings() {
-
-    }
+    // settings constructor
+    // see settingsinit for description.
+    settings();
 
 public:
-// settings contructor init method
-    static settings settingsinit() {
+    //publicly declared methods
+    //descriptions are found in the source file.
+    static void setsetting();
+    static void savesetting();
+    static void loadsetting();
+
+    // settings contructor init method
+    // used to load the settings object and calls loadallsettings to load the settings.json file into memory.
+    static settings settingsinit(){
+
     }
 
-    static settings setsetting() {
-
-    }
-    static settings savesetting() {
-
-    }
-    static settings loadsetting() {
-
-}
 };
 #endif

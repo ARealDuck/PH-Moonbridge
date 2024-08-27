@@ -36,3 +36,4 @@
 /vcpkg-configuration.json
 /vcpkg_installed
 /.vs
+/CppProperties.json

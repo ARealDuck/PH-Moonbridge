@@ -9,7 +9,7 @@
 using namespace std;
 
 // Date and Time functions
-string static get_current_time() {
+string logger::get_current_time() {
     auto now = chrono::system_clock::now();
     time_t ttime = chrono::system_clock::to_time_t(now);
     tm* ltime = localtime(&ttime);
@@ -45,17 +45,23 @@ void logger::addlog(string&message) {
 void logger::logfile() {
     string filename = get_current_date() + ".txt";
     ofstream logfile(filename);
-    try {
-    if(logfile.is_open()) {
-        for (const auto&  item : loggerhistory) {
-            logfile << item << endl;
+    try 
+    {
+        if(logfile.is_open()) 
+        {
+            for (const auto&  item : loggerhistory) 
+            {
+                logfile << item << endl;
+            }
+            logfile.close();
+        } 
+    
+        else { 
+            throw 1;
         }
-        logfile.close();
-    } else { 
-        throw 1;
     }
-    }
-    catch (...) {
+    catch (...) 
+    {
         string error01 = "[WARN] Unable to create file:" + filename + ".txt";
         addlog(error01);
     }

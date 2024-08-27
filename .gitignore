@@ -33,3 +33,6 @@
 
 # Folders
 *.vscode/
+/vcpkg-configuration.json
+/vcpkg_installed
+/.vs

@@ -45,24 +45,7 @@ void logger::addlog(string&message) {
 void logger::logfile() {
     string filename = get_current_date() + ".txt";
     ofstream logfile(filename);
-    try 
-    {
-        if(logfile.is_open()) 
-        {
-            for (const auto&  item : loggerhistory) 
-            {
-                logfile << item << endl;
-            }
-            logfile.close();
-        } 
-    
-        else { 
-            throw 1;
-        }
-    }
-    catch (...) 
-    {
-        string error01 = "[WARN] Unable to create file:" + filename + ".txt";
-        addlog(error01);
-    }
-}
+    if(logfile.is_open()) 
+    for (const auto&  item : loggerhistory) 
+    logfile << item << endl;
+    logfile.close();

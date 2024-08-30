@@ -8,6 +8,15 @@
 using namespace std;
 using json = nlohmann::json;
 
+settings& settings::getInstance(const string& filename) {
+	static settings instance(filename);
+	return instance;
+}
+
+settings::settings(const string& filename) : filename(filename) {
+	loadsettings();
+}
+
 // Loads all of the settings from the settings.json file and dumps it into a vector to be accessed from.
 // TODO: make a settingslocation function to put the settings file into a location away from the executeable file.
 void settings::loadallsettings() {

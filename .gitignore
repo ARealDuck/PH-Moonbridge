@@ -32,8 +32,7 @@
 *.app
 
 # Folders
-*.vscode/
-/vcpkg-configuration.json
 /vcpkg_installed
 /.vs
-/CppProperties.json
+/PH-Moonbridge.vcxproj
+/PH-Moonbridge.vcxproj.filters

@@ -1,7 +1,7 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 #include <vector>
-
+#include <nlohmann/json.hpp>
 using namespace std;
 class settings
 {

@@ -3,22 +3,34 @@
 
 #include <nlohmann/json>
 #include <string>
+using namespace std;
 class settings
 {
 public:
-	std::string loadsettings(std::string& filename);
-	void savesettings();
-	std::string getsetting(std::string& identifier);
+	// Module flags to be set for the main module
+	
 
+	// init function
+	static settings& settingsinit(const string& filename = "settings.json");
+
+	// External module functions & containers
+	template <typename T>
+	T cache(const string& key);
+	template <typename T>
+	T set(const string& key, const T& value);
 
 private:
-	settings(std::string& filename) {
+	// Constructor, Destructor, and Singleton Disablers
+	settings(const string& filename);
+	~settings();
+	settings(const settings&) = delete;
+	settings& operator=(const settings&) = delete;
 
-	}
-	std::string filename;
-	std::string identifier;
-	nlohmann::json loadedsettings;
-
+	// Internal module functions & containers
+	void load();
+	void save();
+	nlohmann::json settings_load;
+	string filename;
 };
 
 #endif // !SETTINGS_H

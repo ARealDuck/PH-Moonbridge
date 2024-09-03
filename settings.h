@@ -1,7 +1,7 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#include <nlohmann/json>
+#include "nlohmann/json.hpp"
 #include <string>
 using namespace std;
 class settings
@@ -9,6 +9,7 @@ class settings
 public:
 	// Module flags to be set for the main module
 	
+	// Modules dependencies 
 
 	// init function
 	static settings& settingsinit(const string& filename = "settings.json");
@@ -17,7 +18,7 @@ public:
 	template <typename T>
 	T cache(const string& key);
 	template <typename T>
-	T set(const string& key, const T& value);
+	void set(const string& key, const T& value);
 
 private:
 	// Constructor, Destructor, and Singleton Disablers

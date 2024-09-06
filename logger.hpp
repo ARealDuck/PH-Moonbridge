@@ -40,6 +40,7 @@ private:
 	string message;
 	string time();
 	string date();
+	string format(loglevel level, const string& message);
 	vector <string> history;
 	string levelstring(loglevel level);
 	void save();

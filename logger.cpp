@@ -24,7 +24,9 @@ logger::~logger() {
 }
 // add
 void logger::add(loglevel level, const string& message) {
-	string leveltag = levelstring(level);
+	string logformatted = format(level, message);
+	history.push_back(logformatted);
+	save();
 }
 // save
 void logger::save() {
@@ -52,6 +54,14 @@ string logger::date() {
 	stringstream ts;
 	ts << put_time(ltime, "%Y-%m-%d");
 	return ts.str();
+}
+// format
+string logger::format(loglevel level, const string& message) {
+	string leveltag = levelstring(level);
+	string logtime = time();
+	ostringstream ss;
+	ss << logtime << leveltag << message;
+	return ss.str();
 }
 // levelstring
 string logger::levelstring(loglevel level) {

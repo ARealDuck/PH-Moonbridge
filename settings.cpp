@@ -1,4 +1,4 @@
-#include "settings.h"
+#include "settings.hpp"
 #include <fstream>
 #include <iostream>
 #include "nlohmann/json.hpp"
@@ -56,5 +56,5 @@ void settings::save() {
 			return;
 	}
 	settingsoutput << settings_load.dump(4);
-	settingsoutput.close;
+	settingsoutput.close();
 }

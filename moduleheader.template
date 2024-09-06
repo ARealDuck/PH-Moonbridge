@@ -1,0 +1,28 @@
+#ifndef MODULENAME_HPP
+#define MODULENAME_HPP
+
+// includes
+
+// shorteners
+using namespace std;
+
+class MODULENAME
+{
+public:
+	// Module Flags
+
+	// Module Dependencies
+
+	// Init Function
+
+	// Module Pointer
+
+	// External module functions & containers
+
+private:
+	// Constructor, Destructor, and Singleton Disablers
+
+	// Internal module functions & containers
+
+}
+#endif MODULENAME_HPP

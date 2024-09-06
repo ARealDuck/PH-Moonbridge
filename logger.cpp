@@ -1,51 +1,70 @@
-#include "logger.h"
-#include <iostream>
-#include <vector>
+#include "logger.hpp"
 #include <string>
+#include <vector>
 #include <chrono>
 #include <sstream>
-#include <iomanip>
+#include <iostream>
 #include <fstream>
-using namespace std;
 
-// Date and Time functions
-string logger::get_current_time() {
-    auto now = chrono::system_clock::now();
-    time_t ttime = chrono::system_clock::to_time_t(now);
-    tm* ltime = localtime(&ttime);
-    stringstream ts;
-    ts << put_time(ltime, "%H:%M:%S");
-    return ts.str();
-}
 
-string logger::get_current_date() {
-    auto now = chrono::system_clock::now();
-    time_t ttime = chrono::system_clock::to_time_t(now);
-    tm* ltime = localtime(&ttime);
-    stringstream ts;
-    ts << put_time(ltime, "%Y-%m-%d");
-    return ts.str();
+// init
+logger* logger::loggerinit() {
+	if (instance == nullptr) {
+		instance = new logger();
+	}
+	return instance;
 }
-
-// Define Parameters for Logger
-string logger::addlogformatter(const string&time, string&message) {
-    ostringstream ss;
-    ss << time << message;
-    return ss.str();
+// contructor
+logger::logger() {
+	add(info, "logger initialized");
 }
-
-// Addlog function for adding logs to loggerhistory
-void logger::addlog(string&message) {
-    string time = get_current_time();
-    string finallog = addlogformatter(time, message);
-    loggerhistory.push_back(finallog);
-    logger::logfile();
+// destructor
+logger::~logger() {
+	save();
 }
-//logfile update function
-void logger::logfile() {
-    string filename = get_current_date() + ".txt";
-    ofstream logfile(filename);
-    if(logfile.is_open()) 
-    for (const auto&  item : loggerhistory) 
-    logfile << item << endl;
-    logfile.close();
+// add
+void logger::add(loglevel level, const string& message) {
+	string leveltag = levelstring(level);
+}
+// save
+void logger::save() {
+	string filename = date() + ".txt";
+	ofstream logfile(filename);
+	if (logfile.is_open())
+		for (const auto& item : history)
+			logfile << item << endl;
+	logfile.close();
+}
+// time
+string logger::time() {
+	auto now = chrono::system_clock::now();
+	time_t ttime = chrono::system_clock::to_time_t(now);
+	tm* ltime = localtime(&ttime);
+	stringstream ts;
+	ts << put_time(ltime, "%H:%M:%S");
+	return ts.str();
+}
+// date
+string logger::date() {
+	auto now = chrono::system_clock::now();
+	time_t ttime = chrono::system_clock::to_time_t(now);
+	tm* ltime = localtime(&ttime);
+	stringstream ts;
+	ts << put_time(ltime, "%Y-%m-%d");
+	return ts.str();
+}
+// levelstring
+string logger::levelstring(loglevel level) {
+	switch (level) {
+		case loglevel::info:
+			return "[INFO]";
+		case loglevel::warn:
+			return "[WARN]";
+		case loglevel::crit:
+			return "[CRITICAL]";
+		case loglevel::error:
+			return "[ERROR]";
+		default:
+			return "[UNKNOWN]";
+	}
+}

@@ -3,11 +3,17 @@
 // Includes
 #include <vector>
 // Modules
-#include "logger.h"
-#include "settings.h"
+#include "logger.hpp"
+#include "settings.hpp"
 
 using namespace std;
+// TODO: add a function to find this file inside of the settings module
+// for now its okay being a hardcoded location.
+string filename = "settings.json";
 
-void runtimeinit() {
-	settings* settings = settings::settingsinit("settings.json");
+void static runtimeinit() {
+
+	settings& settings = settings::settingsinit(filename);
+	logger* logger = logger::loggerinit();
+
 }

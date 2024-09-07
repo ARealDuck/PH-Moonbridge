@@ -24,6 +24,5 @@ private:
 
 	// Internal module functions & containers
 
-};
-
-#endif // !MODULENAME_HPP
+}
+#endif MODULENAME_HPP

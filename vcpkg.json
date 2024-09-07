@@ -1,6 +1,7 @@
 {
   "dependencies": [
+    "cryptopp",
     "nlohmann-json",
-    "cryptopp"
+    "websocketpp"
   ]
 }

@@ -2,6 +2,7 @@
 #define OBSWS_HPP
 
 // includes
+#include <string>
 #include "settings.hpp"
 #include "nlohmann/json.hpp"
 // shorteners
@@ -12,9 +13,6 @@ class obsws
 public:
 	// Module Flags
 
-	// Module Dependencies
-		// settings
-		
 	// Init Function
 	static obsws* obswsinit();
 	// Module Pointer
@@ -22,14 +20,18 @@ public:
 	// External module functions & containers
 	void request();
 private:
+	// Module Dependencies
+	settings* settings;
 	// Constructor, Destructor, and Singleton Disablers
 	obsws();
 	~obsws();
 	obsws(const obsws&) = delete;
 	obsws& operator=(const obsws&) = delete;
 	// Internal module functions & containers
-	int wsconnect();
-	int wsdisconnect();
+	string auth(string& challenge, string& salt);
+	void connect();
+	void disconnect();
+	
 };
 
 #endif // !OBSWS_HPP

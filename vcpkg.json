@@ -1,5 +1,6 @@
 {
-  	"dependencies": [
-    "nlohmann-json"
+  "dependencies": [
+    "nlohmann-json",
+    "cryptopp"
   ]
 }

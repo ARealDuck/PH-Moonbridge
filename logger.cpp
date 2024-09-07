@@ -8,6 +8,7 @@
 
 
 // init
+logger* logger::instance = nullptr;
 logger* logger::loggerinit() {
 	if (instance == nullptr) {
 		instance = new logger();

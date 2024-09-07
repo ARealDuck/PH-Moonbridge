@@ -1,6 +1,5 @@
 {
-  "dependencies": [
-    "nlohmann-json",
-    "websocketpp"
+  	"dependencies": [
+    "nlohmann-json"
   ]
 }

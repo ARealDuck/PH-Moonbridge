@@ -17,17 +17,37 @@ logger* logger::loggerinit() {
 }
 // contructor
 logger::logger() {
-	add(info, "logger initialized");
+	ifstream debugcheck("debugmode.txt");
+	if (debugcheck.is_open()) {
+		add(info, "logger initialized");
+		return;
+	}
+	else {
+		debugmode& (true);
+		add(debug, "logger initialized in debug mode");
+	}
 }
 // destructor
 logger::~logger() {
+	add(debug, "logger module stop function called!!!");
 	save();
+	
 }
 // add
 void logger::add(loglevel level, const string& message) {
-	string logformatted = format(level, message);
-	history.push_back(logformatted);
-	save();
+	if (level == debug && debugmode == true) {
+		string logformatted = format(level, message);
+		history.push_back(logformatted);
+		return;
+	}
+	else if (level == debug && debugmode == false) {
+		return;
+	}
+	else {
+		string logformatted = format(level, message);
+		history.push_back(logformatted);
+		save();
+	}
 }
 // save
 void logger::save() {
@@ -37,6 +57,7 @@ void logger::save() {
 		for (const auto& item : history)
 			logfile << item << endl;
 	logfile.close();
+	add(debug, "log file saved.");
 }
 // time
 string logger::time() {
@@ -75,6 +96,8 @@ string logger::levelstring(loglevel level) {
 			return "[CRITICAL]";
 		case loglevel::error:
 			return "[ERROR]";
+		case loglevel::debug:
+			return "[DEBUG]";
 		default:
 			return "[UNKNOWN]";
 	}

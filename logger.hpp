@@ -12,13 +12,14 @@ enum loglevel {
 	warn,
 	crit,
 	error,
+	debug,
 };
 
 class logger
 {
 public:
 	// Module Flags to be set
-
+	bool debugmode = false;
 	// Module Dependencies
 
 	// Init function

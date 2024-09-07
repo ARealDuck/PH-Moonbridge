@@ -4,24 +4,16 @@
 // Includes
 #include "nlohmann/json.hpp"
 #include <string>
-// Dependencies
-#include "logger.hpp"
 using namespace std;
-// hardcoded settings path
-string filename = "settings.json";
-
 class settings
 {
 public:
 	// Module flags to be set for the main module
 	
 	// Modules dependencies 
-	logger* logger;
-	// init function
-	static settings* settingsinit();
 
-	// module pointer
-	static settings* instance;
+	// init function
+	static settings& settingsinit(const string& filename);
 
 	// External module functions & containers
 	template <typename T>
@@ -31,7 +23,7 @@ public:
 
 private:
 	// Constructor, Destructor, and Singleton Disablers
-	settings();
+	settings(const string& filename);
 	~settings();
 	settings(const settings&) = delete;
 	settings& operator=(const settings&) = delete;

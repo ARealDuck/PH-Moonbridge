@@ -151,11 +151,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="logger.hpp" />
+    <ClInclude Include="obsws.hpp" />
     <ClInclude Include="settings.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="obsws.cpp" />
     <ClCompile Include="settings.cpp" />
   </ItemGroup>
   <ItemGroup>

@@ -1,12 +1,17 @@
 #include "settings.hpp"
+#include "logger.hpp"
 #include <fstream>
 #include <iostream>
 #include "nlohmann/json.hpp"
 using namespace std;
 
+
 // settingsinit
-settings& settings::settingsinit(const string& filename) {
-	static settings instance(filename);
+settings* settings::instance = nullptr;
+settings* settings::settingsinit() {
+	if (instance == nullptr) {
+		instance = new settings();
+	}
 	return instance;
 }
 
@@ -23,7 +28,8 @@ void settings::set(const string& key, const T& value) {
 }
 
 // constructor
-settings::settings(const string& filename) : filename(filename) {
+settings::settings() {
+	logger = logger::loggerinit();
 	load();
 }
 
@@ -36,14 +42,15 @@ settings::~settings() {
 void settings::load() {
 	ifstream settingsfile(filename);
 	if (!settingsfile.is_open()) {
-		cerr << "Failed to open settings.json" << endl;
+		logger->add(warn, "settings.json could not be loaded. Loading settings from defaults.");
 		return;
 	}
 	try {
 		settingsfile >> settings_load;
+		logger->add(info, "settings loaded successfully.");
 	}
 		catch (const nlohmann::json::parse_error& e) {
-			cerr << "Error parsing settings file: " << e.what() << endl;
+			logger->add(warn, "settings.json is corrupted. Loading settings from defaults.");
 		}
 		settingsfile.close();
 }
@@ -52,9 +59,10 @@ void settings::load() {
 void settings::save() {
 	ofstream settingsoutput(filename);
 	if (settingsoutput.is_open()) {
-		cerr << "Failed to open settings.json" << endl;
+		logger->add(warn, "settings.json could not be loaded. Loading settings from defaults.");
 			return;
 	}
 	settingsoutput << settings_load.dump(4);
+	logger->add(info, "settings saved successfully.");
 	settingsoutput.close();
 }

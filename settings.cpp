@@ -2,6 +2,7 @@
 #include <fstream>
 #include <iostream>
 #include "nlohmann/json.hpp"
+#include "logger.hpp"
 using namespace std;
 
 // settingsinit
@@ -27,6 +28,7 @@ void settings::set(const string& key, const T& value) {
 
 // constructor
 settings::settings() {
+	logger = logger::loggerinit();
 	load();
 }
 
@@ -39,25 +41,27 @@ settings::~settings() {
 void settings::load() {
 	ifstream settingsfile(filename);
 	if (!settingsfile.is_open()) {
-		cerr << "Failed to open settings.json" << endl;
+		logger->add(warn, "settings.json not found. reverting to defaults.");
 		return;
 	}
 	try {
 		settingsfile >> settings_load;
 	}
 		catch (const nlohmann::json::parse_error& e) {
-			cerr << "Error parsing settings file: " << e.what() << endl;
+			logger->add(warn, "settings.json is corrupted. reverting to defaults.");
 		}
 		settingsfile.close();
 }
 
 // save
 void settings::save() {
+	//TODO: add a check here to make sure settings file is intact. If check fails throw a warning into the logger and create a new settings file.
 	ofstream settingsoutput(filename);
 	if (settingsoutput.is_open()) {
-		cerr << "Failed to open settings.json" << endl;
+		logger->add(warn, "???is this the first time you used this program??? settings.json not found. failed to save settings.");
 			return;
 	}
 	settingsoutput << settings_load.dump(4);
+	logger->add(info, "settings saved successfully.");
 	settingsoutput.close();
 }

@@ -4,14 +4,14 @@
 // Includes
 #include "nlohmann/json.hpp"
 #include <string>
+// dependencies
+#include"logger.hpp"
 using namespace std;
 class settings
 {
 public:
 	// Module flags to be set for the main module
 	
-	// Modules dependencies 
-
 	// init function
 	static settings* settingsinit();
 
@@ -22,6 +22,8 @@ public:
 	void set(const string& key, const T& value);
 
 private:
+	// Module dependencies
+	logger* logger;
 	// Constructor, Destructor, and Singleton Disablers
 	settings();
 	~settings();

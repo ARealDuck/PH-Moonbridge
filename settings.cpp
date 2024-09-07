@@ -5,8 +5,11 @@
 using namespace std;
 
 // settingsinit
-settings& settings::settingsinit(const string& filename) {
-	static settings instance(filename);
+settings* ::instance = nullptr;
+settings* settings::settingsinit() {
+	if (instance == nullptr) {
+		instance = new settings();
+	}
 	return instance;
 }
 
@@ -23,7 +26,7 @@ void settings::set(const string& key, const T& value) {
 }
 
 // constructor
-settings::settings(const string& filename) : filename(filename) {
+settings::settings() {
 	load();
 }
 

@@ -13,7 +13,7 @@ public:
 	// Modules dependencies 
 
 	// init function
-	static settings& settingsinit(const string& filename);
+	static settings* settingsinit();
 
 	// External module functions & containers
 	template <typename T>
@@ -23,7 +23,7 @@ public:
 
 private:
 	// Constructor, Destructor, and Singleton Disablers
-	settings(const string& filename);
+	settings();
 	~settings();
 	settings(const settings&) = delete;
 	settings& operator=(const settings&) = delete;

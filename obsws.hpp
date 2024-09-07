@@ -4,6 +4,7 @@
 // includes
 #include <string>
 #include "settings.hpp"
+#include "logger.hpp"
 #include "nlohmann/json.hpp"
 // shorteners
 using namespace std;
@@ -22,6 +23,7 @@ public:
 private:
 	// Module Dependencies
 	settings* settings;
+	logger* logger;
 	// Constructor, Destructor, and Singleton Disablers
 	obsws();
 	~obsws();

@@ -1,5 +1,6 @@
 #include "obsws.hpp"
 #include "settings.hpp"
+#include "logger.hpp"
 #include <iostream>
 #include "cryptopp/base64.h"
 #include "cryptopp/sha.h"
@@ -18,6 +19,7 @@ obsws* obsws::obswsinit() {
 // contructor
 obsws::obsws() {
 	settings = settings::settingsinit();
+	logger = logger::loggerinit();
 }
 // destructor
 obsws::~obsws() {

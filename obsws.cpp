@@ -6,6 +6,7 @@
 #include "cryptopp/filters.h"
 #include "cryptopp/files.h"
 
+using namespace CryptoPP;
 // init
 obsws* obsws::instance = nullptr;
 obsws* obsws::obswsinit() {
@@ -30,14 +31,14 @@ string obsws::auth(string& challenge, string& salt) {
 	passsalt << password << salt;
 	string input;
 	passsalt.str(input);
-	CryptoPP::SHA256 hash;
+	SHA256 hash;
 	string base64secret;
-	CryptoPP::StringSource(input, true, new CryptoPP::HashFilter(hash, new CryptoPP::Base64Encoder(new CryptoPP::StringSink(base64secret))));
+	StringSource(input, true, new HashFilter(hash, new Base64Encoder(new StringSink(base64secret))));
 	stringstream b64chal;
 	b64chal << base64secret << challenge;
 	b64chal.str(input);
-	CryptoPP::SHA256 hash;
+	SHA256 hash;
 	string digest;
-	CryptoPP::StringSource(input, true, new CryptoPP::HashFilter(hash, new CryptoPP::Base64Encoder(new CryptoPP::StringSink(digest))));
+	StringSource(input, true, new HashFilter(hash, new Base64Encoder(new StringSink(digest))));
 	return digest;
 }

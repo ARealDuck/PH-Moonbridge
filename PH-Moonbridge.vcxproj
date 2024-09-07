@@ -150,11 +150,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="imgrecog.hpp" />
     <ClInclude Include="logger.hpp" />
     <ClInclude Include="obsws.hpp" />
     <ClInclude Include="settings.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="imgrecog.cpp" />
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="obsws.cpp" />

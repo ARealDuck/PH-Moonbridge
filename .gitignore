@@ -38,3 +38,5 @@
 # I dont know how to change the output of the build folder
 # so this will stay here until I figure something else out because I need sleep.
 /PH-Moonbridge
+*.ilk
+*.pdb

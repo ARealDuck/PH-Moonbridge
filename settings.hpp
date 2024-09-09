@@ -4,9 +4,9 @@
 // Includes
 #include "nlohmann/json.hpp"
 #include <string>
+#include <filesystem>
 // dependencies
 #include"logger.hpp"
-using namespace std;
 class settings
 {
 public:
@@ -16,10 +16,14 @@ public:
 	static settings* settingsinit();
 
 	// External module functions & containers
-	template <typename T>
-	T cache(const string& key);
-	template <typename T>
-	void set(const string& key, const T& value);
+	template<typename T>
+	T cache(const std::string& key) const {
+			return settings_load.at(key).get<T>();
+	}
+	template<typename T>
+	void set(const std::string& key, const T& value) {
+		settings_load[key] = value;
+	}
 
 private:
 	// Module dependencies
@@ -34,7 +38,7 @@ private:
 	void load();
 	void save();
 	nlohmann::json settings_load;
-	string filename;
+	std::filesystem::path filename = "settings.json";
 };
 
 #endif // !SETTINGS_HPP

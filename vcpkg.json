@@ -2,6 +2,7 @@
   "dependencies": [
     "cryptopp",
     "nlohmann-json",
-    "websocketpp"
+    "websocketpp",
+    "boost-random"
   ]
 }

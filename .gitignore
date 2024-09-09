@@ -40,3 +40,4 @@
 /PH-Moonbridge
 *.ilk
 *.pdb
+/settings.json

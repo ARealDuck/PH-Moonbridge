@@ -7,8 +7,6 @@
 #include <cryptopp/filters.h>
 #include <cryptopp/files.h>
 
-using namespace std;
-using namespace CryptoPP;
 std::mutex mtx;
 std::condition_variable cv;
 // init
@@ -26,7 +24,7 @@ obsws::obsws() {
 	logger = logger::loggerinit();
 	logger->add(info, "starting OBSWS module.");
 	// TODO: seperate this to the taskscheduler/multithreader module if possible and needed.
-	thread(&sendmsg, this).detach();
+	std::thread(&obsws::processmsg, this).detach();
 	logger->add(debug, "started message queue thread.");
 	c.init_asio();
 	c.set_message_handler([this](websocketpp::connection_hdl hdl, client::message_ptr msg) {
@@ -39,7 +37,7 @@ obsws::obsws() {
 // destructor
 obsws::~obsws() {
 	{
-		lock_guard<mutex> lock(queuemutex);
+		std::lock_guard<std::mutex> lock(queuemutex);
 		stopprocessing = true;
 	}
 	queuecv.notify_all();
@@ -49,41 +47,51 @@ obsws::~obsws() {
 
 // Handler for reciving messages from OBS Websocket
 void obsws::on_message(websocketpp::connection_hdl hdl, client::message_ptr msg) {
-	string payload = msg->get_payload();
+	std::string payload = msg->get_payload();
 	json jsonmsg = json::parse(payload);
 	int opcode = jsonmsg.value("op", -1);
 	if (opcode == 0 || 2) {
 		pl_handshake(opcode, jsonmsg);
 	}
-	else if (opcode == 5) {
+	//else if (opcode == 5) {
 		// TODO: setup an eventlistener function
-		pl_event(opcode, jsonmsg);
+		//pl_event(opcode, jsonmsg);
 	}
-	else if (opcode == 7 || 9)
+	//else if (opcode == 7 || 9) {
 		// TODO: setup an requestlistener function
-		pl_requestresponse(opcode, jsonmsg);
-}
+		//pl_requestresponse(opcode, jsonmsg);
+//}
 
 // Starts Websocket client to connect to OBS websocket with
 void obsws::startws() {
 	logger->add(info, "Connecting to OBS-WebSocket...");
-	string wsurl = "ws://localhost:" + settings->cache<string>("port");
-	websocketpp::lib::error_code ec;
-	con = c.get_connection(wsurl, ec);
-	if (ec) {
-		logger->add(error, "could not establish connection: " + ec.message());
-		return;
-	}
-	c.connect(con);
-	// starts io loop on seperate thread
-	// TODO: seperate thread call to the taskscheduler/multithreader module if possible and needed.
-	eventloopthread = thread([this]() {
-		c.run();
-		});
+	try {
+		std::string port = settings->cache<std::string>("port");
+		std::string wsurl = "ws://localhost:" + port;
+		websocketpp::lib::error_code ec;
+		con = c.get_connection(wsurl, ec);
+		if (ec) {
+			logger->add(error, "could not establish connection: " + ec.message());
+			return;
+
+		}
+		c.connect(con);
+		// starts io loop on seperate thread
+		// TODO: seperate thread call to the taskscheduler/multithreader module if possible and needed.
+		eventloopthread = std::thread([this]() {
+			c.run();
+			});
 		// waits for the response from OBS then lets the loop run
-		std::unique_lock<mutex> lock(mtx);
+		std::unique_lock<std::mutex> lock(mtx);
 		cv.wait(lock, [this]() { return connected; });
 		logger->add(info, "Successfully connected to OBS Websocket!");
+	}
+	catch (const json::type_error& e) {
+		std::cerr << "Type error: " << e.what() << std::endl;
+	}
+	catch (const std::out_of_range& e) {
+		std::cerr << "Key not found: " << e.what() << std::endl;
+	}
 }
 
 // Closes Websocket Client
@@ -97,7 +105,7 @@ void obsws::stopws() {
 
 // Queues messages to be sent to the OBS websocket server.
 void obsws::sendmsg(const json& jsonmessage) {
-	lock_guard<mutex> lock(queuemutex);
+	std::lock_guard<std::mutex> lock(queuemutex);
 	messagequeue.push(jsonmessage);
 	queuecv.notify_one();
 	logger->add(debug, "request successfully added to queue");
@@ -109,7 +117,7 @@ void obsws::processmsg() {
 		json jsonmessage;
 		{
 			// Keeps thread alive until program lifecycle ends.
-			std::unique_lock<mutex> lock(queuemutex);
+			std::unique_lock<std::mutex> lock(queuemutex);
 			queuecv.wait(lock, [this] { return !messagequeue.empty() || stopprocessing; });
 
 			if (stopprocessing && messagequeue.empty()) {
@@ -119,8 +127,8 @@ void obsws::processmsg() {
 			jsonmessage = messagequeue.front();
 			messagequeue.pop();
 		}
-		string message = jsonmessage.dump();
-		unique_lock<mutex> lock(mtx);
+		std::string message = jsonmessage.dump();
+		std::unique_lock<std::mutex> lock(mtx);
 		// If no requests in progress and handshake protocol is complete.
 		if (!reqinprogress && handshake) {
 			if (con) {
@@ -130,7 +138,6 @@ void obsws::processmsg() {
 		}
 		// If handshake protocol is incomplete.
 		else if (!handshake) {
-			json::parse(jsonmessage);
 			int opcode = jsonmessage.value("op", -1);
 			if (opcode == 1) {
 				if (con) {
@@ -164,39 +171,50 @@ void obsws::processmsg() {
 }
 
 // Creates OBE Websockets auth key when requrired
-string obsws::auth(string& challenge, string& salt) {
-	string password = settings->cache<string>("password");
-	stringstream passsalt;
-	passsalt << password << salt;
-	string input;
-	passsalt.str(input);
-	SHA256 hash;
-	string base64secret;
-	StringSource(input, true, new HashFilter(hash, new Base64Encoder(new StringSink(base64secret))));
-	stringstream b64chal;
-	b64chal << base64secret << challenge;
-	b64chal.str(input);
-	SHA256 hash;
-	string digest;
-	StringSource(input, true, new HashFilter(hash, new Base64Encoder(new StringSink(digest))));
-	return digest;
+std::string obsws::auth(std::string& challenge, std::string& salt) {
+	std::string password = settings->cache<std::string>("password");
+	std::string input = password + salt;
+
+	// First hash (SHA256)
+	std::string hash1;
+	CryptoPP::SHA256 sha256;
+	CryptoPP::StringSource ss1(input, true, new CryptoPP::HashFilter(sha256, new CryptoPP::StringSink(hash1)));
+	
+	// Encode first has into Base64
+	std::string base64secret;
+	CryptoPP::StringSource ss2(hash1, true, new CryptoPP::Base64Encoder(new CryptoPP::StringSink(base64secret), false));
+
+	// Put together base64secret and challenge for the next step
+	std::string input2 = base64secret + challenge;
+
+	// Second hash (SHA256)
+	std::string digest;
+	CryptoPP::StringSource ss3(input2, true, new CryptoPP::HashFilter(sha256, new CryptoPP::StringSink(digest)));
+
+	// Encode the second hash into base64 for the final result
+	std::string base64digest;
+	CryptoPP::StringSource ss4(digest, true, new CryptoPP::Base64Encoder(new CryptoPP::StringSink(base64digest), false));
+
+	//returns final result
+	return base64digest;
 }
 
 // Handles any messages recieved by on_message
 void obsws::pl_handshake(int opcode, const json& jsonmsg) {
-	json::parse(jsonmsg);
 	if (opcode == 0) {
 		json payload;
 		payload["op"] = 1;
 		if (jsonmsg["d"].contains("authentication")); {
-			string challenge = jsonmsg["d"]["authentication"]["challenge"];
-			string salt = jsonmsg["d"]["authentication"]["salt"];
-			string authkey = auth(challenge, salt);
+			std::string challenge = jsonmsg["d"]["authentication"]["challenge"];
+			std::string salt = jsonmsg["d"]["authentication"]["salt"];
+			std::string authkey = auth(challenge, salt);
 			payload["d"] = {
 				{"rpcVersion", 1},
 				{"authentication", authkey},
 				{"eventSubscriptions", 33}
 			};
+			std::cout << "salt = " << salt << std::endl;
+			std::cout << "challenge = " << challenge << std::endl;
 			sendmsg(payload);
 			return;
 		}

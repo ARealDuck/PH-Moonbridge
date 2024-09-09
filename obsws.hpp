@@ -15,7 +15,6 @@
 #include <functional>
 #include <queue>
 // shorteners
-using namespace std;
 using json = nlohmann::json;
 
 
@@ -37,7 +36,6 @@ private:
 	client c;
 	std::mutex mtx;
 	std::condition_variable cv;
-	bool connected = false;
 	std::thread eventloopthread;
 	bool reqinprogress = false;
 	bool handshake = false;
@@ -50,15 +48,15 @@ private:
 	obsws(const obsws&) = delete;
 	obsws& operator=(const obsws&) = delete;
 	// Internal module functions & containers
-	string auth(string& challenge, string& salt);
+	std::string auth(std::string& challenge, std::string& salt);
 	void on_message(websocketpp::connection_hdl hdl, client::message_ptr msg);
 	void startws();
 	void stopws();
 	void pl_handshake(int opcode, const json& jsonmsg);
 	void processmsg();
-	queue<json> messagequeue;
-	mutex queuemutex;
-	condition_variable queuecv;
+	std::queue<json> messagequeue;
+	std::mutex queuemutex;
+	std::condition_variable queuecv;
 	bool stopprocessing = false;
 	
 };

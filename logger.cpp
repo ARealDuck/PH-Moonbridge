@@ -17,7 +17,7 @@ logger* logger::loggerinit() {
 }
 // contructor
 logger::logger() {
-	ifstream debugcheck("debugmode.txt");
+	std::ifstream debugcheck("debugmode.txt");
 	if (debugcheck.is_open()) {
 		add(info, "logger initialized");
 		return;
@@ -34,9 +34,9 @@ logger::~logger() {
 	
 }
 // add
-void logger::add(loglevel level, const string& message) {
+void logger::add(loglevel level, const std::string& message) {
 	if (level == debug && debugmode == true) {
-		string logformatted = format(level, message);
+		std::string logformatted = format(level, message);
 		history.push_back(logformatted);
 		return;
 	}
@@ -44,49 +44,49 @@ void logger::add(loglevel level, const string& message) {
 		return;
 	}
 	else {
-		string logformatted = format(level, message);
+		std::string logformatted = format(level, message);
 		history.push_back(logformatted);
 		save();
 	}
 }
 // save
 void logger::save() {
-	string filename = date() + ".txt";
-	ofstream logfile(filename);
+	std::string filename = date() + ".txt";
+	std::ofstream logfile(filename);
 	if (logfile.is_open())
 		for (const auto& item : history)
-			logfile << item << endl;
+			logfile << item << std::endl;
 	logfile.close();
 	add(debug, "log file saved.");
 }
 // time
-string logger::time() {
-	auto now = chrono::system_clock::now();
-	time_t ttime = chrono::system_clock::to_time_t(now);
+std::string logger::time() {
+	auto now = std::chrono::system_clock::now();
+	time_t ttime = std::chrono::system_clock::to_time_t(now);
 	tm* ltime = localtime(&ttime);
-	stringstream ts;
-	ts << put_time(ltime, "%H:%M:%S");
+	std::stringstream ts;
+	ts << std::put_time(ltime, "%H:%M:%S");
 	return ts.str();
 }
 // date
-string logger::date() {
-	auto now = chrono::system_clock::now();
-	time_t ttime = chrono::system_clock::to_time_t(now);
+std::string logger::date() {
+	auto now = std::chrono::system_clock::now();
+	time_t ttime = std::chrono::system_clock::to_time_t(now);
 	tm* ltime = localtime(&ttime);
-	stringstream ts;
-	ts << put_time(ltime, "%Y-%m-%d");
+	std::stringstream ts;
+	ts << std::put_time(ltime, "%Y-%m-%d");
 	return ts.str();
 }
 // format
-string logger::format(loglevel level, const string& message) {
-	string leveltag = levelstring(level);
-	string logtime = time();
-	ostringstream ss;
+std::string logger::format(loglevel level, const std::string& message) {
+	std::string leveltag = levelstring(level);
+	std::string logtime = time();
+	std::ostringstream ss;
 	ss << logtime << leveltag << message;
 	return ss.str();
 }
 // levelstring
-string logger::levelstring(loglevel level) {
+std::string logger::levelstring(loglevel level) {
 	switch (level) {
 		case loglevel::info:
 			return "[INFO]";

@@ -5,7 +5,6 @@
 #include <string>
 #include <vector>
 
-using namespace std;
 // enum declared before class declatation
 enum loglevel {
 	info,
@@ -29,7 +28,7 @@ public:
 	static logger* instance;
 
 	// External module functions & containers
-	void add(loglevel level, const string& message);
+	void add(loglevel level, const std::string& message);
 
 private:
 	// Constructor, Destructor, and Singleton Disablers
@@ -38,12 +37,12 @@ private:
 	logger(const logger&) = delete;
 	logger& operator=(const logger&) = delete;
 	// Internal module functions & containers
-	string message;
-	string time();
-	string date();
-	string format(loglevel level, const string& message);
-	vector <string> history;
-	string levelstring(loglevel level);
+	std::string message;
+	std::string time();
+	std::string date();
+	std::string format(loglevel level, const std::string& message);
+	std::vector <std::string> history;
+	std::string levelstring(loglevel level);
 	void save();
 
 };

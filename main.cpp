@@ -10,6 +10,7 @@ using namespace std;
 
 
 void static runtimeinit() {
+	std::cout << "Current working directory: " << std::filesystem::current_path() << std::endl;
 	logger* logger = logger::loggerinit();
 	settings* settings = settings::settingsinit();
 	obsws* obsws = obsws::obswsinit();

@@ -13,8 +13,10 @@
 #include <thread>
 #include <unordered_map>
 #include <functional>
+#include <queue>
 // shorteners
 using namespace std;
+using json = nlohmann::json;
 
 
 class obsws
@@ -27,7 +29,7 @@ public:
 	// Module Pointer
 	static obsws* instance;
 	// External module functions & containers
-	void sendmsg();
+	void sendmsg(const json& jsonmessage);
 private:
 	// internal flags
 	typedef websocketpp::client<websocketpp::config::asio_client> client;
@@ -37,7 +39,8 @@ private:
 	std::condition_variable cv;
 	bool connected = false;
 	std::thread eventloopthread;
-	unordered_map<int, opcodehandler> handlers;
+	bool reqinprogress = false;
+	bool handshake = false;
 	// Module Dependencies
 	settings* settings;
 	logger* logger;
@@ -51,8 +54,12 @@ private:
 	void on_message(websocketpp::connection_hdl hdl, client::message_ptr msg);
 	void startws();
 	void stopws();
-	void msghndlr(int opcode, const json& jsonmsg);
-
+	void pl_handshake(int opcode, const json& jsonmsg);
+	void processmsg();
+	queue<json> messagequeue;
+	mutex queuemutex;
+	condition_variable queuecv;
+	bool stopprocessing = false;
 	
 };
 

@@ -17,7 +17,10 @@
       <Filter>src\main functionality</Filter>
     </ClCompile>
     <ClCompile Include="mainwindow.cpp">
-      <Filter>src\main functionality</Filter>
+      <Filter>src\GUI Functionality</Filter>
+    </ClCompile>
+    <ClCompile Include="settingswindow.cpp">
+      <Filter>src\GUI Functionality</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -34,7 +37,10 @@
       <Filter>src\main functionality</Filter>
     </ClInclude>
     <ClInclude Include="mainwindow.hpp">
-      <Filter>src\main functionality</Filter>
+      <Filter>src\GUI Functionality</Filter>
+    </ClInclude>
+    <ClInclude Include="settingswindow.hpp">
+      <Filter>src\GUI Functionality</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -52,6 +58,9 @@
     </Filter>
     <Filter Include="src\core functionality">
       <UniqueIdentifier>{1ab6fab9-59ac-46b0-b537-ea8f8977b291}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GUI Functionality">
+      <UniqueIdentifier>{df196c63-1190-4aa0-af93-af8bc5493e1b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

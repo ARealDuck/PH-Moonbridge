@@ -1,8 +1,9 @@
 {
   "dependencies": [
+    "boost-random",
     "cryptopp",
     "nlohmann-json",
     "websocketpp",
-    "boost-random"
+    "wxwidgets"
   ]
 }

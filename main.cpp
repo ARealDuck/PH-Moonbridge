@@ -5,17 +5,26 @@
 #include "logger.hpp"
 #include "settings.hpp"
 #include "obsws.hpp"
+#include "mainwindow.hpp"
+#include <wx/wx.h>
 
-using namespace std;
+class moonbridgeapp : public wxApp {
+public:
+	virtual bool OnInit();
+};
 
+wxIMPLEMENT_APP(moonbridgeapp);
 
-void static runtimeinit() {
-	std::cout << "Current working directory: " << std::filesystem::current_path() << std::endl;
+bool moonbridgeapp::OnInit() {
+
+	//create and show the main window
+	mainwindow* mainWindow = new mainwindow("PH-MoonBridge v1.0");
+	mainWindow->Show(true);
+
+	//initialization function for the program
 	logger* logger = logger::loggerinit();
 	settings* settings = settings::settingsinit();
 	obsws* obsws = obsws::obswsinit();
-}
 
-int main() {
-	runtimeinit();
+	return true;
 }

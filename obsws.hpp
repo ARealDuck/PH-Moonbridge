@@ -58,7 +58,6 @@ private:
 	std::mutex queuemutex;
 	std::condition_variable queuecv;
 	bool stopprocessing = false;
-	
 };
 
 #endif // !OBSWS_HPP

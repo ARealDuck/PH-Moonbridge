@@ -65,7 +65,6 @@ void obsws::on_message(websocketpp::connection_hdl hdl, client::message_ptr msg)
 // Starts Websocket client to connect to OBS websocket with
 void obsws::startws() {
 	logger->add(info, "Connecting to OBS-WebSocket...");
-	try {
 		std::string port = settings->cache<std::string>("port");
 		std::string wsurl = "ws://localhost:" + port;
 		websocketpp::lib::error_code ec;
@@ -81,17 +80,6 @@ void obsws::startws() {
 		eventloopthread = std::thread([this]() {
 			c.run();
 			});
-		// waits for the response from OBS then lets the loop run
-		std::unique_lock<std::mutex> lock(mtx);
-		cv.wait(lock, [this]() { return connected; });
-		logger->add(info, "Successfully connected to OBS Websocket!");
-	}
-	catch (const json::type_error& e) {
-		std::cerr << "Type error: " << e.what() << std::endl;
-	}
-	catch (const std::out_of_range& e) {
-		std::cerr << "Key not found: " << e.what() << std::endl;
-	}
 }
 
 // Closes Websocket Client
@@ -140,6 +128,7 @@ void obsws::processmsg() {
 		else if (!handshake) {
 			int opcode = jsonmessage.value("op", -1);
 			if (opcode == 1) {
+				logger->add(info, "Successfully connected to OBS Websocket!");
 				if (con) {
 					c.send(con->get_handle(), message, websocketpp::frame::opcode::text);
 					logger->add(debug, "OBSWS handshake protocol request sent.");

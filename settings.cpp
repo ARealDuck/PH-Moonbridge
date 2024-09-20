@@ -30,7 +30,8 @@ void settings::load() {
 	if (!sfile.is_open()) {
 		std::cout << "json not loaded" << std::endl;
 		logger->add(warn, "settings.json not found. reverting to defaults.");
-		//TODO create method to make a json object with default variables.
+		defaults();
+		return;
 	}
 	try {
 		settings_load = nlohmann::json::parse(sfile);
@@ -46,11 +47,20 @@ void settings::load() {
 void settings::save() {
 	//TODO: add a check here to make sure settings file is intact. If check fails throw a warning into the logger and create a new settings file.
 	std::ofstream settingsoutput(filename);
-	if (settingsoutput.is_open()) {
+	if (!settingsoutput.is_open()) {
 		logger->add(warn, "???is this the first time you used this program??? settings.json not found. failed to save settings.");
 			return;
 	}
 	settingsoutput << settings_load.dump(4);
 	logger->add(info, "settings saved successfully.");
 	settingsoutput.close();
+}
+
+// creates a json object from the defaults
+// if a setting is needed to be set for a feature please set a default here.
+nlohmann::json static defaults() {
+	nlohmann::json settings_load;
+	settings_load["port"] = "4455";
+	settings_load["password"] = "********";
+
 }

@@ -39,6 +39,7 @@ private:
 	void save();
 	nlohmann::json settings_load;
 	std::filesystem::path filename = "settings.json";
+	void defaults();
 };
 
 #endif // !SETTINGS_HPP

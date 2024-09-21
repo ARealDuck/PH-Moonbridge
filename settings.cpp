@@ -39,6 +39,8 @@ void settings::load() {
 	}
 		catch (const nlohmann::json::parse_error& e) {
 			logger->add(warn, "settings.json is corrupted. reverting to defaults.");
+			defaults();
+			return;
 		}
 		sfile.close();
 }
@@ -58,9 +60,25 @@ void settings::save() {
 
 // creates a json object from the defaults
 // if a setting is needed to be set for a feature please set a default here.
-nlohmann::json static defaults() {
-	nlohmann::json settings_load;
-	settings_load["port"] = "4455";
-	settings_load["password"] = "********";
+void settings::defaults() {
+	nlohmann::json newsettings;
+	newsettings["port"] = "4455";
+	newsettings["password"] = "********";
 
+	//save function for settings
+	std::ofstream newsettingsout(filename);
+	if (!newsettingsout.is_open()) {
+		logger->add(debug, "No settings.json found when setting defaults. creating new json.");
+		newsettingsout << newsettings.dump(4);
+		logger->add(debug, "New settings file created.");
+		newsettingsout.close();
+		load();
+		return;
+	}
+	logger->add(debug, "settings.json found. setting defaults inside current settings.json");
+	newsettingsout << newsettings.dump(4);
+	logger->add(debug, "settings.json updated.");
+	newsettingsout.close();
+	load();
+	return;
 }

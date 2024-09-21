@@ -18,7 +18,7 @@ logger* logger::loggerinit() {
 // contructor
 logger::logger() {
 	std::ifstream debugcheck("debugmode.txt");
-	if (debugcheck.is_open()) {
+	if (!debugcheck.is_open()) {
 		add(info, "logger initialized");
 		return;
 	}

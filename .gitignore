@@ -41,3 +41,4 @@
 *.ilk
 *.pdb
 /settings.json
+/debugmode.txt

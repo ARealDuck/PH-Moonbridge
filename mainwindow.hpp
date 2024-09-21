@@ -2,6 +2,7 @@
 #define MAINWINDOW_HPP
 
 #include <wx/wx.h>
+#include "obsws.hpp"
 
 
 class mainwindow : public wxFrame {
@@ -10,10 +11,9 @@ public:
 
 private:
 	void opensettingswindow(wxCommandEvent& event);
+	void onobsconnect(wxCommandEvent& event);
 
-
-
-};
+	};
 
 #endif // !MAINWINDOW_HPP
 

@@ -9,6 +9,10 @@
 
 std::mutex mtx;
 std::condition_variable cv;
+
+// wxWidgets event declatations
+wxDEFINE_EVENT(wxEVT_OBS_CONNECTED, wxCommandEvent);
+
 // init
 obsws* obsws::instance = nullptr;
 obsws* obsws::obswsinit() {
@@ -216,6 +220,9 @@ void obsws::pl_handshake(int opcode, const json& jsonmsg) {
 	}
 	else if (opcode == 2) {
 		handshake = true;
+		wxCommandEvent event(wxEVT_OBS_CONNECTED);
+		event.SetString("");
+		wxQueueEvent(handler, event.Clone());
 		return;
 	}
 }

@@ -6,7 +6,7 @@
 mainwindow::mainwindow(const wxString& title)
 	: wxFrame(NULL, wxID_ANY, title) {
 	wxLogDebug("mainwindow constructor called");
-	wxSize fixedsize(400, 300);
+	wxSize fixedsize(600, 300);
 	SetMinSize(fixedsize);
 	SetMaxSize(fixedsize);
 	SetSize(fixedsize);
@@ -15,8 +15,12 @@ mainwindow::mainwindow(const wxString& title)
 	wxMenu* settingsmenu = new wxMenu;
 	wxMenu* infomenu = new wxMenu;
 	wxPanel* panel = new wxPanel(this, wxID_ANY);
-	wxStaticText* playstext = new wxStaticText(panel, wxID_ANY, "Plays: 999999", wxPoint(10, 15), wxSize(10,60));
-	wxStaticText* statustext = new wxStaticText(panel, wxID_ANY, "Status: init", wxPoint(150, 15));
+	wxStaticText* playstext = new wxStaticText(panel, 100, "Plays: 999999", wxPoint(10, 15), wxSize(10,60));
+	wxStaticText* statustext = new wxStaticText(panel, 101, "Status: init", wxPoint(150, 15));
+	wxStaticText* obsconnect = new wxStaticText(panel, 102, "Not connected to OBS!!", wxPoint(275, 15));
+	Bind(wxEVT_OBS_CONNECTED, &mainwindow::onobsconnect, this);
+
+
 
 	panel->Layout();
 	// setup objects
@@ -33,6 +37,7 @@ mainwindow::mainwindow(const wxString& title)
 	wxFont newFont(defaultFont.GetPointSize() + 6, defaultFont.GetFamily(), defaultFont.GetStyle(), defaultFont.GetWeight());
 	playstext->SetFont(newFont);
 	statustext->SetFont(newFont);
+	obsconnect->SetFont(newFont);
 	SetMenuBar(menubar);
 
 	Bind(wxEVT_MENU, &mainwindow::opensettingswindow, this, 11);
@@ -42,4 +47,8 @@ void mainwindow::opensettingswindow(wxCommandEvent& event) {
 	wxLogDebug("opensettingswindow called");
 	settingswindow* settings_window = new settingswindow(this);
 	settings_window->Show(true);
+}
+
+void mainwindow::onobsconnect(wxCommandEvent& event) {
+	obsconnect->SetLabel(event.GetString);
 }

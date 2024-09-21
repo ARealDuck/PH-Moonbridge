@@ -1,7 +1,7 @@
 #ifndef OBSWS_HPP
 #define OBSWS_HPP
 
-// includes
+// includes (holy shit this got huge LMAO)
 #include <string>
 #include "settings.hpp"
 #include "logger.hpp"
@@ -14,9 +14,12 @@
 #include <unordered_map>
 #include <functional>
 #include <queue>
+#include <wx/wx.h>
 // shorteners
 using json = nlohmann::json;
 
+//wxWidgets events declaration
+wxDEFINE_EVENT(wxEVT_OBS_CONNECTED, wxCommandEvent);
 
 class obsws
 {
@@ -58,6 +61,7 @@ private:
 	std::mutex queuemutex;
 	std::condition_variable queuecv;
 	bool stopprocessing = false;
+	wxEvtHandler* handler;
 };
 
 #endif // !OBSWS_HPP

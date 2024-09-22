@@ -12,6 +12,8 @@ public:
 private:
 	void opensettingswindow(wxCommandEvent& event);
 	void onobsconnect(wxCommandEvent& event);
+	wxStaticText* obsconnect;
+	wxBoxSizer* textline1;
 
 	};
 

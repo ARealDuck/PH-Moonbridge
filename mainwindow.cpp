@@ -16,8 +16,8 @@ mainwindow::mainwindow(const wxString& title)
 	wxMenu* infomenu = new wxMenu;
 	wxPanel* panel = new wxPanel(this, wxID_ANY);
 	wxStaticText* playstext = new wxStaticText(panel, 100, "Plays: 999999", wxPoint(10, 15), wxSize(10,60));
-	wxStaticText* statustext = new wxStaticText(panel, 101, "Status: init", wxPoint(150, 15));
-	wxStaticText* obsconnect = new wxStaticText(panel, 102, "Not connected to OBS!!", wxPoint(275, 15));
+	wxStaticText* statustext = new wxStaticText(panel, 101, "Status: song select", wxPoint(150, 15));
+	wxStaticText* obsconnect = new wxStaticText(panel, 102, "Not connected to OBS!!", wxPoint(300, 15));
 	Bind(wxEVT_OBS_CONNECTED, &mainwindow::onobsconnect, this);
 
 
@@ -39,6 +39,12 @@ mainwindow::mainwindow(const wxString& title)
 	statustext->SetFont(newFont);
 	obsconnect->SetFont(newFont);
 	SetMenuBar(menubar);
+	textline1 = new wxBoxSizer(wxHORIZONTAL);
+	textline1->Add(playstext, 0, wxALL, 5);
+	textline1->Add(statustext, 0, wxALL, 5);
+	textline1->Add(obsconnect, 0, wxALL, 5);
+	panel->SetSizer(textline1);
+	panel->Layout();
 
 	Bind(wxEVT_MENU, &mainwindow::opensettingswindow, this, 11);
 }
@@ -50,5 +56,5 @@ void mainwindow::opensettingswindow(wxCommandEvent& event) {
 }
 
 void mainwindow::onobsconnect(wxCommandEvent& event) {
-	obsconnect->SetLabel(event.GetString);
+	obsconnect->SetLabel(event.GetString());
 }

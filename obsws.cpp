@@ -10,9 +10,6 @@
 std::mutex mtx;
 std::condition_variable cv;
 
-// wxWidgets event declatations
-wxDEFINE_EVENT(wxEVT_OBS_CONNECTED, wxCommandEvent);
-
 // init
 obsws* obsws::instance = nullptr;
 obsws* obsws::obswsinit() {

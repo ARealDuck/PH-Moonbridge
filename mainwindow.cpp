@@ -14,15 +14,12 @@ mainwindow::mainwindow(const wxString& title)
 	wxMenuBar* menubar = new wxMenuBar;
 	wxMenu* settingsmenu = new wxMenu;
 	wxMenu* infomenu = new wxMenu;
-	wxPanel* panel = new wxPanel(this, wxID_ANY);
-	wxStaticText* playstext = new wxStaticText(panel, 100, "Plays: 999999", wxPoint(10, 15), wxSize(10,60));
-	wxStaticText* statustext = new wxStaticText(panel, 101, "Status: song select", wxPoint(150, 15));
-	wxStaticText* obsconnect = new wxStaticText(panel, 102, "Not connected to OBS!!", wxPoint(300, 15));
-	Bind(wxEVT_OBS_CONNECTED, &mainwindow::onobsconnect, this);
+	wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
+	// TextPanel Instance
+	textPanel = new TextPanel(this);
+	sizer->Add(textPanel, 1, wxEXPAND | wxALL, 10);
+	SetSizer(sizer);
 
-
-
-	panel->Layout();
 	// setup objects
 	settingsmenu->Append(11, "Program Settings");
 	settingsmenu->Append(12, "OBS Control Settings");
@@ -33,20 +30,6 @@ mainwindow::mainwindow(const wxString& title)
 	menubar->Append(settingsmenu, "Settings");
 	menubar->Append(infomenu, "Info");
 
-	wxFont defaultFont = playstext->GetFont();
-	wxFont newFont(defaultFont.GetPointSize() + 6, defaultFont.GetFamily(), defaultFont.GetStyle(), defaultFont.GetWeight());
-	playstext->SetFont(newFont);
-	statustext->SetFont(newFont);
-	obsconnect->SetFont(newFont);
-	SetMenuBar(menubar);
-	textline1 = new wxBoxSizer(wxHORIZONTAL);
-	textline1->Add(playstext, 0, wxALL, 5);
-	textline1->Add(statustext, 0, wxALL, 5);
-	textline1->Add(obsconnect, 0, wxALL, 5);
-	panel->SetSizer(textline1);
-	panel->Layout();
-
-	Bind(wxEVT_MENU, &mainwindow::opensettingswindow, this, 11);
 }
 
 void mainwindow::opensettingswindow(wxCommandEvent& event) {

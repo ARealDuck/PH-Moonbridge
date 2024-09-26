@@ -162,6 +162,7 @@
     <ClInclude Include="obsws.hpp" />
     <ClInclude Include="settings.hpp" />
     <ClInclude Include="settingswindow.hpp" />
+    <ClInclude Include="text_panel.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="imgrecog.cpp" />
@@ -171,6 +172,7 @@
     <ClCompile Include="obsws.cpp" />
     <ClCompile Include="settings.cpp" />
     <ClCompile Include="settingswindow.cpp" />
+    <ClCompile Include="text_panel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="moduleheader.template" />

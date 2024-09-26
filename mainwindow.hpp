@@ -2,6 +2,7 @@
 #define MAINWINDOW_HPP
 
 #include <wx/wx.h>
+#include "text_panel.hpp"
 #include "obsws.hpp"
 
 
@@ -10,6 +11,7 @@ public:
 	mainwindow(const wxString& title);
 
 private:
+	TextPanel* textPanel;
 	void opensettingswindow(wxCommandEvent& event);
 	void onobsconnect(wxCommandEvent& event);
 	wxStaticText* obsconnect;

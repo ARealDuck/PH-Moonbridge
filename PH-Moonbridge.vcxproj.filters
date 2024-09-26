@@ -16,11 +16,14 @@
     <ClCompile Include="imgrecog.cpp">
       <Filter>src\main functionality</Filter>
     </ClCompile>
-    <ClCompile Include="mainwindow.cpp">
-      <Filter>src\GUI Functionality</Filter>
-    </ClCompile>
     <ClCompile Include="settingswindow.cpp">
       <Filter>src\GUI Functionality</Filter>
+    </ClCompile>
+    <ClCompile Include="mainwindow.cpp">
+      <Filter>src\GUI Functionality\main window</Filter>
+    </ClCompile>
+    <ClCompile Include="text_panel.cpp">
+      <Filter>src\GUI Functionality\main window</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -36,20 +39,20 @@
     <ClInclude Include="imgrecog.hpp">
       <Filter>src\main functionality</Filter>
     </ClInclude>
-    <ClInclude Include="mainwindow.hpp">
-      <Filter>src\GUI Functionality</Filter>
-    </ClInclude>
     <ClInclude Include="settingswindow.hpp">
       <Filter>src\GUI Functionality</Filter>
+    </ClInclude>
+    <ClInclude Include="mainwindow.hpp">
+      <Filter>src\GUI Functionality\main window</Filter>
+    </ClInclude>
+    <ClInclude Include="text_panel.hpp">
+      <Filter>src\GUI Functionality\main window</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="moduleheader.template" />
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="include">
-      <UniqueIdentifier>{222e2eeb-cbec-4e38-8b7f-7637f6bfb47d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src">
       <UniqueIdentifier>{662df459-c80b-4eed-a2cb-6a606108d444}</UniqueIdentifier>
     </Filter>
@@ -61,6 +64,9 @@
     </Filter>
     <Filter Include="src\GUI Functionality">
       <UniqueIdentifier>{df196c63-1190-4aa0-af93-af8bc5493e1b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GUI Functionality\main window">
+      <UniqueIdentifier>{6ec7203a-36f1-4bd6-bb1e-229dcc801af1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

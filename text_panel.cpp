@@ -13,9 +13,9 @@ TextPanel::TextPanel(wxWindow* parent)
 	textids["textconnect"] = textconnect;
 
 	// add all text widgets into panel boxsizer
-	sizer->Add(textplays, 1, wxEXPAND | wxALL, 5);
-	sizer->Add(textstate, 1, wxEXPAND | wxALL, 5);
-	sizer->Add(textconnect, 1, wxEXPAND | wxALL, 5);
+	sizer->Add(textplays, 0, wxALIGN_LEFT | wxALL, 5);
+	sizer->Add(textstate, 0, wxALIGN_LEFT | wxALL, 5);
+	sizer->Add(textconnect, 0, wxALIGN_LEFT | wxALL, 5);
 
 	// set sizer for the panel
 	SetSizer(sizer);

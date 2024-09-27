@@ -17,7 +17,7 @@ mainwindow::mainwindow(const wxString& title)
 	wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
 	// TextPanel Instance
 	textPanel = new TextPanel(this);
-	sizer->Add(textPanel, 1, wxEXPAND | wxALL, 10);
+	sizer->Add(textPanel, 1, wxEXPAND | wxALL, 0);
 	SetSizer(sizer);
 
 	// setup objects

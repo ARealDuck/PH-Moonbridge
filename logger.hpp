@@ -4,6 +4,7 @@
 //includes
 #include <string>
 #include <vector>
+#include "console_panel.hpp"
 
 // enum declared before class declatation
 enum loglevel {

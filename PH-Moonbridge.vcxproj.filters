@@ -25,6 +25,9 @@
     <ClCompile Include="text_panel.cpp">
       <Filter>src\GUI Functionality\main window</Filter>
     </ClCompile>
+    <ClCompile Include="console_panel.cpp">
+      <Filter>src\GUI Functionality\main window</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="obsws.hpp">
@@ -46,6 +49,9 @@
       <Filter>src\GUI Functionality\main window</Filter>
     </ClInclude>
     <ClInclude Include="text_panel.hpp">
+      <Filter>src\GUI Functionality\main window</Filter>
+    </ClInclude>
+    <ClInclude Include="console_panel.hpp">
       <Filter>src\GUI Functionality\main window</Filter>
     </ClInclude>
   </ItemGroup>

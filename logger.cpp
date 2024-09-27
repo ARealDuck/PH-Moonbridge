@@ -38,6 +38,7 @@ void logger::add(loglevel level, const std::string& message) {
 	if (level == debug && debugmode == true) {
 		std::string logformatted = format(level, message);
 		history.push_back(logformatted);
+		//logPanel.appendtext(logformatted);
 		return;
 	}
 	else if (level == debug && debugmode == false) {

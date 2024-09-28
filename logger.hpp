@@ -30,6 +30,7 @@ public:
 
 	// External module functions & containers
 	void add(loglevel level, const std::string& message);
+	wxString lastlog();
 
 private:
 	// Constructor, Destructor, and Singleton Disablers

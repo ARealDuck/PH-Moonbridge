@@ -2,13 +2,15 @@
 #define CONSOLE_PANEL_HPP
 
 #include <wx/wx.h>
+#include "logger.hpp"
 
 class LogPanel : public wxPanel {
 public:
 	LogPanel(wxWindow* parent);
-	void appendtext(const wxString& text);
+
 
 private:
+	void appendtext();
 	wxTextCtrl* consoletextctrl;
 
 };

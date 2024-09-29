@@ -10,9 +10,9 @@ public:
 
 
 private:
-	void appendtext();
+	void appendtext(wxCommandEvent& event);
 	wxTextCtrl* consoletextctrl;
-
+	logger* logger;
 };
 
 #endif // !CONSOLE_PANEL_HPP

@@ -4,7 +4,7 @@
 //includes
 #include <string>
 #include <vector>
-#include <wx/wx.h>
+#include "logreceiver.hpp"
 
 // enum declared before class declatation
 enum loglevel {

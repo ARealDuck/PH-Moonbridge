@@ -2,7 +2,7 @@
 #define CONSOLE_PANEL_HPP
 
 #include <wx/wx.h>
-#include "logger.hpp"
+#include "logreceiver.hpp"
 
 class LogPanel : public wxPanel {
 public:
@@ -10,9 +10,8 @@ public:
 
 
 private:
-	void appendtext(wxCommandEvent& event);
+	void appendtext(const wxString& message);
 	wxTextCtrl* consoletextctrl;
-	logger* logger;
 };
 
 #endif // !CONSOLE_PANEL_HPP

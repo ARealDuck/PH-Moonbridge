@@ -41,11 +41,8 @@ void logger::add(loglevel level, const std::string& message) {
 		std::string logformatted = format(level, message);
 		history.push_back(logformatted);
 		save();
-		if (console_panel_target) {
-			wxCommandEvent event(EVT_LOGGER_LOG);
-			wxPostEvent(console_panel_target, event);
-			return;
-		}
+		wxString wxstring = logformatted;
+		logreceiver::getinstance()->addlog(wxstring);
 		return;
 	}
 	else if (level == debug && debugmode == false) {

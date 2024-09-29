@@ -28,6 +28,9 @@
     <ClCompile Include="console_panel.cpp">
       <Filter>src\GUI Functionality\main window</Filter>
     </ClCompile>
+    <ClCompile Include="logreceiver.cpp">
+      <Filter>src\core functionality</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="obsws.hpp">
@@ -53,6 +56,9 @@
     </ClInclude>
     <ClInclude Include="console_panel.hpp">
       <Filter>src\GUI Functionality\main window</Filter>
+    </ClInclude>
+    <ClInclude Include="logreceiver.hpp">
+      <Filter>src\core functionality</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

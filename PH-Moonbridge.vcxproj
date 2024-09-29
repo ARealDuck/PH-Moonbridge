@@ -159,6 +159,7 @@
     <ClInclude Include="console_panel.hpp" />
     <ClInclude Include="imgrecog.hpp" />
     <ClInclude Include="logger.hpp" />
+    <ClInclude Include="logreceiver.hpp" />
     <ClInclude Include="mainwindow.hpp" />
     <ClInclude Include="obsws.hpp" />
     <ClInclude Include="settings.hpp" />
@@ -169,6 +170,7 @@
     <ClCompile Include="console_panel.cpp" />
     <ClCompile Include="imgrecog.cpp" />
     <ClCompile Include="logger.cpp" />
+    <ClCompile Include="logreceiver.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="obsws.cpp" />

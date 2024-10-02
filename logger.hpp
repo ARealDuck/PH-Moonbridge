@@ -4,7 +4,7 @@
 //includes
 #include <string>
 #include <vector>
-#include "logreceiver.hpp"
+#include "console_panel.hpp"
 
 // enum declared before class declatation
 enum loglevel {
@@ -28,10 +28,8 @@ public:
 	static logger* instance;
 
 	// External module functions & containers
-	static const wxEventTypeTag<wxCommandEvent> EVT_LOGGER_LOG;
 	void add(loglevel level, const std::string& message);
 	wxString lastlog();
-	wxWindow* console_panel_target;
 
 private:
 	// Constructor, Destructor, and Singleton Disablers

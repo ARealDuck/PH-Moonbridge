@@ -1,6 +1,7 @@
 #include "obsws.hpp"
 #include "settings.hpp"
 #include "logger.hpp"
+#include "text_panel.hpp"
 #include <iostream>
 #include <cryptopp/base64.h>
 #include <cryptopp/sha.h>
@@ -217,9 +218,6 @@ void obsws::pl_handshake(int opcode, const json& jsonmsg) {
 	}
 	else if (opcode == 2) {
 		handshake = true;
-		wxCommandEvent event(wxEVT_OBS_CONNECTED);
-		event.SetString("");
-		wxQueueEvent(handler, event.Clone());
 		return;
 	}
 }

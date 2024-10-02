@@ -6,8 +6,6 @@
 #include <iostream>
 #include <fstream>
 
-// wxWidgets event definition
-const wxEventTypeTag<wxCommandEvent> logger::EVT_LOGGER_LOG(wxNewEventType());
 
 // init
 logger* logger::instance = nullptr;
@@ -41,8 +39,10 @@ void logger::add(loglevel level, const std::string& message) {
 		std::string logformatted = format(level, message);
 		history.push_back(logformatted);
 		save();
-		wxString wxstring = logformatted;
-		logreceiver::getinstance()->addlog(wxstring);
+		LogPanel* panel = LogPanel::getinstance();
+		if (panel != nullptr) {
+			panel->appendtext(logformatted);
+		}
 		return;
 	}
 	else if (level == debug && debugmode == false) {
@@ -52,10 +52,9 @@ void logger::add(loglevel level, const std::string& message) {
 		std::string logformatted = format(level, message);
 		history.push_back(logformatted);
 		save();
-		if (console_panel_target) {
-			wxCommandEvent event(EVT_LOGGER_LOG);
-			wxPostEvent(console_panel_target, event);
-			return;
+		LogPanel* panel = LogPanel::getinstance();
+		if (panel != nullptr) {
+			panel->appendtext(logformatted);
 		}
 		return;
 	}

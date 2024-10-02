@@ -17,7 +17,7 @@ mainwindow::mainwindow(const wxString& title)
 	wxBoxSizer* sizer = new wxBoxSizer(wxVERTICAL);
 	// TextPanel Instance
 	textPanel = new TextPanel(this);
-	logPanel = new LogPanel(this);
+	logPanel = LogPanel::getinstance(this);
 	sizer->Add(textPanel, 1, wxEXPAND | wxALL, 0);
 	sizer->Add(logPanel, 1, wxEXPAND | wxALL, 0);
 	SetSizer(sizer);
@@ -38,8 +38,4 @@ void mainwindow::opensettingswindow(wxCommandEvent& event) {
 	wxLogDebug("opensettingswindow called");
 	settingswindow* settings_window = new settingswindow(this);
 	settings_window->Show(true);
-}
-
-void mainwindow::onobsconnect(wxCommandEvent& event) {
-	obsconnect->SetLabel(event.GetString());
 }

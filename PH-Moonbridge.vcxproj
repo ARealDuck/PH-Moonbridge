@@ -163,6 +163,7 @@
     <ClInclude Include="obsws.hpp" />
     <ClInclude Include="settings.hpp" />
     <ClInclude Include="settingswindow.hpp" />
+    <ClInclude Include="taskscheduler.h" />
     <ClInclude Include="text_panel.hpp" />
   </ItemGroup>
   <ItemGroup>
@@ -174,10 +175,8 @@
     <ClCompile Include="obsws.cpp" />
     <ClCompile Include="settings.cpp" />
     <ClCompile Include="settingswindow.cpp" />
+    <ClCompile Include="taskscheduler.cpp" />
     <ClCompile Include="text_panel.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="moduleheader.template" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

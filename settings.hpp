@@ -1,45 +1,35 @@
 #ifndef SETTINGS_HPP
 #define SETTINGS_HPP
 
-// Includes
 #include "nlohmann/json.hpp"
 #include <string>
 #include <filesystem>
-// dependencies
-#include"logger.hpp"
-class settings
-{
-public:
-	// Module flags to be set for the main module
-	
-	// init function
-	static settings* settingsinit();
 
-	// External module functions & containers
-	template<typename T>
-	T cache(const std::string& key) const {
-			return settings_load.at(key).get<T>();
-	}
-	template<typename T>
-	void set(const std::string& key, const T& value) {
-		settings_load[key] = value;
-	}
+class settings {
+public:
+	settings();
 
 private:
-	// Module dependencies
-	logger* logger;
-	// Constructor, Destructor, and Singleton Disablers
-	settings();
-	~settings();
-	settings(const settings&) = delete;
-	settings& operator=(const settings&) = delete;
+	friend class settingshelper;
 
-	// Internal module functions & containers
-	void load();
-	void save();
-	nlohmann::json settings_load;
+	void loadfromdisk();
+	void savetodisk();
+	nlohmann::json mastersettings;
 	std::filesystem::path filename = "settings.json";
-	void defaults();
+	void createfromdefaults();
+};
+settings globalsettings;
+#define gsettings globalsettings;
+
+class settingshelper {
+protected:
+	nlohmann::json* settingssection;
+public: 
+	settingshelper(nlohmann::json* section) : settingssection(section) {}
+	virtual ~settingshelper() = default;
+
+	virtual std::string readsetting(const std::string& key) = 0;
+	virtual void writesettings(const std::string& key, const std::string& value) = 0;
 };
 
 #endif // !SETTINGS_HPP

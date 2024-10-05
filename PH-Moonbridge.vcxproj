@@ -157,6 +157,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="console_panel.hpp" />
+    <ClInclude Include="event_table.h" />
     <ClInclude Include="imgrecog.hpp" />
     <ClInclude Include="logger.hpp" />
     <ClInclude Include="mainwindow.hpp" />
@@ -168,6 +169,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="console_panel.cpp" />
+    <ClCompile Include="event_table.cpp" />
     <ClCompile Include="imgrecog.cpp" />
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="main.cpp" />

@@ -8,28 +8,45 @@
 class settings {
 public:
 	settings();
+	nlohmann::json getsettings();
+	int geteditver();
 
 private:
-	friend class settingshelper;
+	friend class settingsreader;
+	friend class settingseditor;
 
-	void loadfromdisk();
+	bool loadfromdisk();
 	void savetodisk();
 	nlohmann::json mastersettings;
 	std::filesystem::path filename = "settings.json";
-	void createfromdefaults();
+	void defaultstemplate();
+	bool settingsempty;
+	int editver = 1;
 };
 settings globalsettings;
 #define gsettings globalsettings;
 
-class settingshelper {
+class settingsreader {
+
 protected:
-	nlohmann::json* settingssection;
+	nlohmann::json settingssection;
 public: 
-	settingshelper(nlohmann::json* section) : settingssection(section) {}
-	virtual ~settingshelper() = default;
+	settingsreader(std::string& section, settings& settingsmaster);
+	virtual ~settingsreader() = default;
 
 	virtual std::string readsetting(const std::string& key) = 0;
-	virtual void writesettings(const std::string& key, const std::string& value) = 0;
+private:
+	int editsver;
+};
+
+class settingseditor {
+
+protected:
+
+public:
+
+private:
+
 };
 
 #endif // !SETTINGS_HPP

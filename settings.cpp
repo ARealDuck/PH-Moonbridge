@@ -56,3 +56,29 @@ settingsreader::settingsreader(std::string& section, settings& settingsmaster) {
 	}
 	editsver = settingsmaster.geteditver();
 }
+std::string settingsreader::readsetting(const std::string& key) {
+	if (settingssection.contains(key)) {
+		return settingssection.at(key).get<std::string>();
+	}
+	else {
+		return "";
+	}
+}
+
+settingseditor::settingseditor(std::string& section, settings& settingsmaster) {
+	sectionname = section;
+	if (settingsmaster.getsettings().contains(section)) {
+		settingssection = settingsmaster.getsettings()[section];
+	}
+	else {
+		// Logger call here
+	}
+}
+void settingseditor::editsetting(std::string& key, std::string& value) {
+	settingssection[key] = value;
+}
+
+void settingseditor::applysetting() {
+	globalsettings.getsettings()[sectionname] = settingssection;
+	globalsettings.savetodisk();
+}

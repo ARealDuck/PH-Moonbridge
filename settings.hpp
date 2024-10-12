@@ -32,9 +32,9 @@ protected:
 	nlohmann::json settingssection;
 public: 
 	settingsreader(std::string& section, settings& settingsmaster);
-	virtual ~settingsreader() = default;
+	~settingsreader() = default;
 
-	virtual std::string readsetting(const std::string& key) = 0;
+	std::string readsetting(const std::string& key) = 0;
 private:
 	int editsver;
 };
@@ -42,11 +42,15 @@ private:
 class settingseditor {
 
 protected:
-
+	nlohmann::json settingssection;
 public:
+	settingseditor(std::string& section, settings& settingsmaster);
+	~settingseditor() = default;
 
+	void editsetting(std::string& key, std::string& value);
 private:
-
+	std::string sectionname;
+	void applysetting();
 };
 
 #endif // !SETTINGS_HPP

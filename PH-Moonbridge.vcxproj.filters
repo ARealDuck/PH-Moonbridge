@@ -28,9 +28,8 @@
     <ClCompile Include="console_panel.cpp">
       <Filter>src\GUI Functionality\main window</Filter>
     </ClCompile>
-    <ClCompile Include="logreceiver.cpp">
-      <Filter>src\core functionality</Filter>
-    </ClCompile>
+    <ClCompile Include="event_table.cpp" />
+    <ClCompile Include="threadpool.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="obsws.hpp">
@@ -57,12 +56,8 @@
     <ClInclude Include="console_panel.hpp">
       <Filter>src\GUI Functionality\main window</Filter>
     </ClInclude>
-    <ClInclude Include="logreceiver.hpp">
-      <Filter>src\core functionality</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="moduleheader.template" />
+    <ClInclude Include="event_table.h" />
+    <ClInclude Include="threadpool.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">

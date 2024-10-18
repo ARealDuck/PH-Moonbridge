@@ -11,8 +11,9 @@
 
 class threadpool {
 public:
-	// Constructor, minThreads is hardcoded to set the minimum amount of threads for the given program
-	threadpool(size_t minThreads = 6);
+	// Constructor only used to create object globally DOES NOT START THREADPOOL
+	// minThreads is used to hardcode set a given minumum amount of threads
+	threadpool(size_t minThreads);
 
 	// Destructor for cleanup if needed
 	~threadpool();
@@ -20,6 +21,10 @@ public:
 	//method to call to enqueue tasks
 	// REQUIRES TASK TO BE VOID, IF IT IS NOT VOID IT WILL BREAK
 	void enqueueTask(std::function<void()> task);
+
+	// start function to create threadpool
+	// I have to seperate this functionality away from the global contructor to avoid multithreading conflicts with the GUI Library regarding the main thread.
+	void start(size_t minThreads = 6);
 private:
 	// function executed by each thread
 	void worker();
@@ -38,5 +43,6 @@ private:
 	size_t minThreads;
 	size_t maxThreads;
 };
+
 #endif // !THREADPOOL_H
 

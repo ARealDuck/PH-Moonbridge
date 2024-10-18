@@ -3,11 +3,7 @@
 #include <algorithm>
 
 threadpool::threadpool(size_t minThreads) : stop(false), minThreads(minThreads) {
-	maxThreads = std::max(minThreads, static_cast<size_t>(std::thread::hardware_concurrency()));
-	for (size_t i = 0; i < maxThreads; ++i) {
-		threads.emplace_back(&threadpool::worker, this);
-	}
-	std::cout << "threadpool created with " << maxThreads << "threads." << std::endl;
+
 }
 
 threadpool::~threadpool() {
@@ -25,6 +21,14 @@ void threadpool::enqueueTask(std::function<void()> task) {
 	condition.notify_one();
 }
 
+void threadpool::start(size_t minThreads) {
+	maxThreads = std::max(minThreads, static_cast<size_t>(std::thread::hardware_concurrency()));
+	for (size_t i = 0; i < maxThreads; ++i) {
+		threads.emplace_back(&threadpool::worker, this);
+	}
+	std::cout << "threadpool created with " << maxThreads << "threads." << std::endl;
+}
+
 void threadpool::worker() {
 	while (!stop) {
 		std::function<void()> task;
@@ -39,6 +43,4 @@ void threadpool::worker() {
 		task();
 	}
 }
-
-
 

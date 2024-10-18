@@ -166,6 +166,7 @@
     <ClInclude Include="settingswindow.hpp" />
     <ClInclude Include="threadpool.h" />
     <ClInclude Include="text_panel.hpp" />
+    <ClInclude Include="wsmanager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="console_panel.cpp" />
@@ -179,6 +180,7 @@
     <ClCompile Include="settingswindow.cpp" />
     <ClCompile Include="threadpool.cpp" />
     <ClCompile Include="text_panel.cpp" />
+    <ClCompile Include="wsmanager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

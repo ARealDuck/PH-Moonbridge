@@ -30,6 +30,9 @@
     </ClCompile>
     <ClCompile Include="event_table.cpp" />
     <ClCompile Include="threadpool.cpp" />
+    <ClCompile Include="wsmanager.cpp">
+      <Filter>src\main functionality\Websocket</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="obsws.hpp">
@@ -58,6 +61,9 @@
     </ClInclude>
     <ClInclude Include="event_table.h" />
     <ClInclude Include="threadpool.h" />
+    <ClInclude Include="wsmanager.h">
+      <Filter>src\main functionality\Websocket</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -74,6 +80,9 @@
     </Filter>
     <Filter Include="src\GUI Functionality\main window">
       <UniqueIdentifier>{6ec7203a-36f1-4bd6-bb1e-229dcc801af1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\main functionality\Websocket">
+      <UniqueIdentifier>{f06960c9-6b92-49c5-bc74-1adf7653c446}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

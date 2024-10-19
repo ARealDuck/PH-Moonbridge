@@ -30,7 +30,7 @@
     </ClCompile>
     <ClCompile Include="event_table.cpp" />
     <ClCompile Include="threadpool.cpp" />
-    <ClCompile Include="wsmanager.cpp">
+    <ClCompile Include="wstunnel.cpp">
       <Filter>src\main functionality\Websocket</Filter>
     </ClCompile>
   </ItemGroup>
@@ -61,7 +61,7 @@
     </ClInclude>
     <ClInclude Include="event_table.h" />
     <ClInclude Include="threadpool.h" />
-    <ClInclude Include="wsmanager.h">
+    <ClInclude Include="wstunnel.h">
       <Filter>src\main functionality\Websocket</Filter>
     </ClInclude>
   </ItemGroup>

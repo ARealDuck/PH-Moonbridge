@@ -13,7 +13,7 @@ class threadpool {
 public:
 	// Constructor only used to create object globally DOES NOT START THREADPOOL
 	// minThreads is used to hardcode set a given minumum amount of threads
-	threadpool(size_t minThreads);
+	threadpool(size_t minThreads = 6);
 
 	// Destructor for cleanup if needed
 	~threadpool();
@@ -24,7 +24,7 @@ public:
 
 	// start function to create threadpool
 	// I have to seperate this functionality away from the global contructor to avoid multithreading conflicts with the GUI Library regarding the main thread.
-	void start(size_t minThreads = 6);
+	void start();
 private:
 	// function executed by each thread
 	void worker();

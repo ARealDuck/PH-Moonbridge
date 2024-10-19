@@ -2,9 +2,7 @@
 #include <iostream>
 #include <algorithm>
 
-threadpool::threadpool(size_t minThreads) : stop(false), minThreads(minThreads) {
-
-}
+threadpool::threadpool(size_t minThreads) : stop(false), minThreads(minThreads) {}
 
 threadpool::~threadpool() {
 	stop = true;
@@ -21,7 +19,7 @@ void threadpool::enqueueTask(std::function<void()> task) {
 	condition.notify_one();
 }
 
-void threadpool::start(size_t minThreads) {
+void threadpool::start() {
 	maxThreads = std::max(minThreads, static_cast<size_t>(std::thread::hardware_concurrency()));
 	for (size_t i = 0; i < maxThreads; ++i) {
 		threads.emplace_back(&threadpool::worker, this);
@@ -34,7 +32,7 @@ void threadpool::worker() {
 		std::function<void()> task;
 		{
 			std::unique_lock<std::mutex> lock(queuemtx);
-			condition.wait(lock[this]() { return stop || !tasks.empty(); });
+			condition.wait(lock, [this]() { return stop || !tasks.empty(); });
 			if (stop && tasks.empty())
 				return;
 			task = std::move(tasks.front());
@@ -44,3 +42,4 @@ void threadpool::worker() {
 	}
 }
 
+threadpool gthreadpool;

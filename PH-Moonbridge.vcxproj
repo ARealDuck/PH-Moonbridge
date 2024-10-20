@@ -166,6 +166,7 @@
     <ClInclude Include="settingswindow.hpp" />
     <ClInclude Include="threadpool.h" />
     <ClInclude Include="text_panel.hpp" />
+    <ClInclude Include="wsclient.h" />
     <ClInclude Include="wstunnel.h" />
   </ItemGroup>
   <ItemGroup>
@@ -180,6 +181,7 @@
     <ClCompile Include="settingswindow.cpp" />
     <ClCompile Include="threadpool.cpp" />
     <ClCompile Include="text_panel.cpp" />
+    <ClCompile Include="wsclient.cpp" />
     <ClCompile Include="wstunnel.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

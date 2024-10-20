@@ -33,6 +33,9 @@
     <ClCompile Include="wstunnel.cpp">
       <Filter>src\main functionality\Websocket</Filter>
     </ClCompile>
+    <ClCompile Include="wsclient.cpp">
+      <Filter>src\main functionality\Websocket</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="obsws.hpp">
@@ -62,6 +65,9 @@
     <ClInclude Include="event_table.h" />
     <ClInclude Include="threadpool.h" />
     <ClInclude Include="wstunnel.h">
+      <Filter>src\main functionality\Websocket</Filter>
+    </ClInclude>
+    <ClInclude Include="wsclient.h">
       <Filter>src\main functionality\Websocket</Filter>
     </ClInclude>
   </ItemGroup>

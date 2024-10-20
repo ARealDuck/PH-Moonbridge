@@ -3,9 +3,11 @@
 
 #include "threadpool.h"
 #include <websocketpp/client.hpp>
-#include <thread>
-#include <mutex>
-#include <functional>
+#include <websocketpp/config/asio_client.hpp>
+#include <memory>
+#include <iostream>
+
+extern threadpool gthreadpool;
 
 typedef websocketpp::client<websocketpp::config::asio_client> Client;
 typedef websocketpp::connection_hdl ConnectionHandle;
@@ -14,9 +16,11 @@ class wsTunnel {
 public:
 	wsTunnel();
 
+	void start();
+
+	void stop();
 
 private:
-	void start();
 
 	Client ws_client_;
 	bool running_;

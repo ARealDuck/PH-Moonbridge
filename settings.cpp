@@ -47,7 +47,7 @@ void settings::defaultstemplate() {
 	// start work on this when work on other modules starts.
 }
 
-settingsreader::settingsreader(std::string& section, settings& settingsmaster) {
+settingsreader::settingsreader(const std::string& section, settings& settingsmaster) {
 	if (settingsmaster.getsettings().contains(section)) {
 		settingssection = settingsmaster.getsettings()[section];
 	}
@@ -82,3 +82,4 @@ void settingseditor::applysetting() {
 	globalsettings.getsettings()[sectionname] = settingssection;
 	globalsettings.savetodisk();
 }
+settings globalsettings;

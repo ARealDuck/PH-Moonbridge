@@ -1,14 +1,16 @@
 #include "wstunnel.h"
 
-wsTunnel::wsTunnel() : running_(false) {}
+wsTunnel::wsTunnel() : running_(false) {
+	ws_client_.init_asio(&iocontext);
+}
 
 void wsTunnel::start() {
 	running_ = true;
 	gthreadpool.enqueueTask([this]() {
 		while (running_) {
 			try {
-				ws_client_.run();
-
+				iocontext.run();
+				iocontext.reset();
 			}
 			catch (const std::exception& e) {
 				std::cerr << "wsTunnel error: " << e.what() << std::endl;
@@ -21,10 +23,12 @@ void wsTunnel::start() {
 
 void wsTunnel::stop() {
 	running_ = false;
+	iocontext.stop();
 	ws_client_.stop();
 }
 
-std::shared_ptr<client>get_client() {
-	return std::make_shared<client>(ws_client_);
+asio::io_context& wsTunnel::getiocontext() {
+	return iocontext;
 }
 
+wsTunnel tunnel;

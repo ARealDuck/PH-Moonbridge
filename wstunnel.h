@@ -1,11 +1,14 @@
 #ifndef WSTUNNEL_H
 #define WSTUNNEL_H
 
+#define ASIO_STANDALONE
 #include "threadpool.h"
 #include <websocketpp/client.hpp>
 #include <websocketpp/config/asio_client.hpp>
+#include <asio/io_context.hpp>
 #include <memory>
 #include <iostream>
+
 
 extern threadpool gthreadpool;
 
@@ -20,8 +23,10 @@ public:
 
 	void stop();
 
-private:
+	asio::io_context& getiocontext();
 
+private:
+	asio::io_context iocontext;
 	Client ws_client_;
 	bool running_;
 	

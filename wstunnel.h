@@ -10,8 +10,6 @@
 #include <iostream>
 
 
-extern threadpool gthreadpool;
-
 typedef websocketpp::client<websocketpp::config::asio_client> Client;
 typedef websocketpp::connection_hdl ConnectionHandle;
 

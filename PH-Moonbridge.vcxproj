@@ -158,10 +158,12 @@
   <ItemGroup>
     <ClInclude Include="console_panel.hpp" />
     <ClInclude Include="event_table.h" />
+    <ClInclude Include="imageprocessor.hpp" />
     <ClInclude Include="imgrecog.hpp" />
     <ClInclude Include="logger.hpp" />
     <ClInclude Include="mainwindow.hpp" />
     <ClInclude Include="obsws.hpp" />
+    <ClInclude Include="sceneswitch.hpp" />
     <ClInclude Include="settings.hpp" />
     <ClInclude Include="settingswindow.hpp" />
     <ClInclude Include="threadpool.h" />
@@ -172,11 +174,13 @@
   <ItemGroup>
     <ClCompile Include="console_panel.cpp" />
     <ClCompile Include="event_table.cpp" />
+    <ClCompile Include="imageprocessor.cpp" />
     <ClCompile Include="imgrecog.cpp" />
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
     <ClCompile Include="obsws.cpp" />
+    <ClCompile Include="sceneswitch.cpp" />
     <ClCompile Include="settings.cpp" />
     <ClCompile Include="settingswindow.cpp" />
     <ClCompile Include="threadpool.cpp" />

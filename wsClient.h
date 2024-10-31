@@ -14,7 +14,7 @@ extern wsTunnel tunnel;
 
 class wsClient {
 public:
-	explicit wsClient(asio::io_context& iocontext) : ws_client_(), responseready(false) {
+	wsClient(asio::io_context& iocontext) : ws_client_(), responseready(false) {
 		ws_client_.init_asio(&iocontext);
 		ws_client_.start_perpetual();
 		ws_client_.set_message_handler([this](websocketpp::connection_hdl, client::message_ptr msg) {

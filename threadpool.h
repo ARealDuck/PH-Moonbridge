@@ -44,5 +44,7 @@ private:
 	size_t maxThreads;
 };
 
+extern threadpool gthreadpool;
+
 #endif // !THREADPOOL_H
 

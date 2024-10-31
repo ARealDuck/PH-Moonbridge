@@ -36,6 +36,12 @@
     <ClCompile Include="wsclient.cpp">
       <Filter>src\main functionality\Websocket</Filter>
     </ClCompile>
+    <ClCompile Include="sceneswitch.cpp">
+      <Filter>src\main functionality\OBS Scene Switching</Filter>
+    </ClCompile>
+    <ClCompile Include="imageprocessor.cpp">
+      <Filter>src\main functionality\OBS Scene Switching</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="obsws.hpp">
@@ -70,6 +76,12 @@
     <ClInclude Include="wsclient.h">
       <Filter>src\main functionality\Websocket</Filter>
     </ClInclude>
+    <ClInclude Include="sceneswitch.hpp">
+      <Filter>src\main functionality\OBS Scene Switching</Filter>
+    </ClInclude>
+    <ClInclude Include="imageprocessor.hpp">
+      <Filter>src\main functionality\OBS Scene Switching</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
@@ -89,6 +101,9 @@
     </Filter>
     <Filter Include="src\main functionality\Websocket">
       <UniqueIdentifier>{f06960c9-6b92-49c5-bc74-1adf7653c446}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\main functionality\OBS Scene Switching">
+      <UniqueIdentifier>{cc8a9404-0192-499d-85d6-99516adfa1bd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

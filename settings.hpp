@@ -5,8 +5,6 @@
 #include <string>
 #include <filesystem>
 
-extern settings globalsettings;
-
 class settings {
 public:
 	settings();
@@ -25,6 +23,8 @@ private:
 	bool settingsempty;
 	int editver = 1;
 };
+
+extern settings globalsettings;
 
 class settingsreader {
 

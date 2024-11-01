@@ -25,6 +25,7 @@ private:
 	std::unordered_map <std::string, std::string> scenemap;
 
 	void faaframe();
+	
 	void switchscenes(std::string& scenename);
 
 };

@@ -1,7 +1,14 @@
 #include "wsclient.h"
 #include "settings.hpp"
 
+wsClient::wsClient() : ws_client_(), responseready(false) {
+	ws_client_.init_asio(&tunnel.getiocontext());
+	ws_client_.start_perpetual();
+	ws_client_.set_message_handler([this](websocketpp::connection_hdl, client::message_ptr msg) {
+		msghandle(msg->get_payload());
+		});
 
+}
 
 void wsClient::connect() {
 	settingsreader wsSettingshelper("obswebsocket", globalsettings);

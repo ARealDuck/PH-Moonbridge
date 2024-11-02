@@ -1,46 +1,34 @@
 #ifndef WSCLIENT_H
 #define WSCLIENT_H
 
+#define ASIO_STANDALONE
+#include <asio/io_context.hpp>
 #include <websocketpp/client.hpp>
 #include <websocketpp/config/asio_client.hpp>
 #include <memory>
+#include "wstunnel.h"
 
 typedef websocketpp::client<websocketpp::config::asio_client> client;
 
+extern wsTunnel tunnel;
+
 class wsClient {
 public:
-	wsClient(std::shared_ptr<client> ws_client) : ws_client_(ws_client), connected(false) {
-		// Client settings
-		ws_client_->init_asio();
-		ws_client_->start_perpetual();
-
-		// Handlers
-		ws_client_->set_open_handler([this](websocketpp::connection_hdl hdl) {
-			std::cout << "connection opened" << std::endl;
-			handle = hdl;
-			connected = true;
-			});
-		ws_client_->set_message_handler([this](websocketpp::connection_hdl, client::message_ptr msg) {
-			handle_message(msg->get_payload());
-			});
-		ws_client_->set_close_handler([this](websocketpp::connection_hdl hdl) {
-			std::cout << "connection closed" << std::endl;
-			connected = false;
-			});
-		ws_client_->set_fail_handler([this](websocketpp::connection_hdl hdl) {
-			std::cout << "connection failed." << std::endl;
-			connected = false;
-			});
-
-	}
+	wsClient();
 	void connect();
-	std::future<std::string> sendmsg(const std::string& message);
+	nlohmann::json sendmsg(const nlohmann::json& message);
+	void msghandle(const std::string& reponse);
+	bool checkcon();
 
 private:
-	std::shared_ptr<client> ws_client_;
+	client ws_client_;
 	websocketpp::connection_hdl handle;
-	bool connected;
 	std::mutex responsemtx;
+	std::condition_variable responsecv;
+	bool responseready;
+	nlohmann::json lastreponse;
+	bool handshake = false;
+	std::string createauth(std::string& challenge, std::string& salt);
 };
 
 

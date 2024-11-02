@@ -162,6 +162,7 @@
     <ClInclude Include="imgrecog.hpp" />
     <ClInclude Include="logger.hpp" />
     <ClInclude Include="mainwindow.hpp" />
+    <ClInclude Include="obspolling.hpp" />
     <ClInclude Include="obsws.hpp" />
     <ClInclude Include="sceneswitch.hpp" />
     <ClInclude Include="settings.hpp" />
@@ -179,6 +180,7 @@
     <ClCompile Include="logger.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mainwindow.cpp" />
+    <ClCompile Include="obspolling.cpp" />
     <ClCompile Include="obsws.cpp" />
     <ClCompile Include="sceneswitch.cpp" />
     <ClCompile Include="settings.cpp" />

@@ -42,6 +42,9 @@
     <ClCompile Include="imageprocessor.cpp">
       <Filter>src\main functionality\OBS Scene Switching</Filter>
     </ClCompile>
+    <ClCompile Include="obspolling.cpp">
+      <Filter>src\main functionality\OBS Scene Switching</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="obsws.hpp">
@@ -80,6 +83,9 @@
       <Filter>src\main functionality\OBS Scene Switching</Filter>
     </ClInclude>
     <ClInclude Include="imageprocessor.hpp">
+      <Filter>src\main functionality\OBS Scene Switching</Filter>
+    </ClInclude>
+    <ClInclude Include="obspolling.hpp">
       <Filter>src\main functionality\OBS Scene Switching</Filter>
     </ClInclude>
   </ItemGroup>

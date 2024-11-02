@@ -12,24 +12,10 @@
 class sceneswitcher {
 public:
 	sceneswitcher();
-
-	void start();
-
-	void stop();
 private:
-
-	bool pollingactive = false;
-	std::unique_ptr <wsClient> datastream;
-	std::unique_ptr <wsClient> obscontroller;
-	std::string gamesource;
-	std::unordered_map <std::string, std::string> scenemap;
-
-	void faaframe();
-	
-	void switchscenes(std::string& scenename);
 
 };
 
-extern sceneswitcher obssceneswitch;
+//extern sceneswitcher obssceneswitch;
 
 #endif // !SCENESWITCH_HPP

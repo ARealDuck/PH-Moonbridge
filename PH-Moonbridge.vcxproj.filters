@@ -88,6 +88,9 @@
     <ClInclude Include="obspolling.hpp">
       <Filter>src\main functionality\OBS Scene Switching</Filter>
     </ClInclude>
+    <ClInclude Include="clientsync.hpp">
+      <Filter>src\main functionality\Websocket</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">

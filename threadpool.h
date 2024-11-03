@@ -19,7 +19,7 @@ public:
 	~threadpool();
 
 	//method to call to enqueue tasks
-	// REQUIRES TASK TO BE VOID, IF IT IS NOT VOID IT WILL BREAK
+	// REQUIRES TASK TO BE PUT IN THIS BLOCK OF CODE gthreadpool.enqueueTask([this]() { "CODE BLOCK HERE" });
 	void enqueueTask(std::function<void()> task);
 
 	// start function to create threadpool

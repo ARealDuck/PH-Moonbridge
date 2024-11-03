@@ -6,6 +6,8 @@
 #include <websocketpp/client.hpp>
 #include <websocketpp/config/asio_client.hpp>
 #include <memory>
+#include <nlohmann/json.hpp>
+#include "clientsync.hpp"
 #include "wstunnel.h"
 
 typedef websocketpp::client<websocketpp::config::asio_client> client;
@@ -15,18 +17,20 @@ extern wsTunnel tunnel;
 class wsClient {
 public:
 	wsClient();
-	void connect();
+	void connect(clientsync&);
 	nlohmann::json sendmsg(const nlohmann::json& message);
 	void msghandle(const std::string& reponse);
-
+	bool checkcon();
 
 private:
 	client ws_client_;
 	websocketpp::connection_hdl handle;
 	std::mutex responsemtx;
 	std::condition_variable responsecv;
-	bool responseready;
+	bool responseready = false;
 	nlohmann::json lastreponse;
+	bool handshake = false;
+	std::string createauth(std::string& challenge, std::string& salt);
 };
 
 

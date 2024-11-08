@@ -87,6 +87,12 @@ bool wsClient::checkcon() {
 	return handshake;
 }
 
+std::string wsClient::createid() {
+	auto now = std::chrono::system_clock::now();
+	auto millis = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
+	return "req" + std::to_string(millis);
+}
+
 std::string wsClient::createauth(std::string& challenge, std::string& salt) {
 	settingsreader wsSettingshelper("obswebsocket", globalsettings);
 	std::string password = wsSettingshelper.readsetting("password");

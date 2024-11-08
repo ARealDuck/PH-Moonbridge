@@ -2,6 +2,7 @@
 #define OBSPOLLING_HPP
 
 #include <condition_variable>
+#include <shared_mutex>
 #include <string>
 #include "clientsync.hpp"
 #include "wsclient.h"
@@ -14,15 +15,14 @@ public:
 	obspolling();
 	void startpolling();
 	std::string getimagedata();
-	
+	std::string getpollingdata();
+	bool running = false;
 private:
 	clientsync syncdata;
 	wsClient pollingclient;
 	std::string sourcename;
-	bool running = false;
-	std::string imagedata;
 	std::mutex imgdatamtx;
-
+	std::string imagedata;
 };
 
 #endif // !OBSPOLLING_HPP

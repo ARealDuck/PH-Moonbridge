@@ -11,7 +11,7 @@
 
 class sceneswitcher {
 public:
-	sceneswitcher();
+	
 private:
 
 };

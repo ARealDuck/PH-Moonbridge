@@ -21,6 +21,7 @@ public:
 	nlohmann::json sendmsg(const nlohmann::json& message);
 	void msghandle(const std::string& reponse);
 	bool checkcon();
+	std::string createid();
 
 private:
 	client ws_client_;

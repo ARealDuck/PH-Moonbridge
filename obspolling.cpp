@@ -7,7 +7,11 @@ void obspolling::startpolling() {
 		pollingclient.connect(syncdata);
 		running = true;
 		while (running) {
-			imagedata = getimagedata();
+			std::string tempimage = getimagedata();
+			{
+				std::unique_lock lock(imgdatamtx);
+				imagedata = tempimage;
+			}
 			// wait for 500ms before sending request again
 			std::this_thread::sleep_for(std::chrono::milliseconds(500));
 		}
@@ -28,7 +32,20 @@ std::string obspolling::getimagedata() {
 		}}
 	};
 	nlohmann::json returnmsg = pollingclient.sendmsg(datamsg);
-	returnmsg.parse
+	if (returnmsg.contains("status") && returnmsg["status"].contains("ok")) {
+		std::string returnstring = returnmsg["imageData"];
+		return returnstring;
+	}
+
 }
 
 obspolling obspoll;
+
+std::string obspolling::getpollingdata() {
+	std::string tempdata;
+	{
+		std::shared_lock lock(imgdatamtx);
+		tempdata = imagedata;
+	}
+	return tempdata;
+}

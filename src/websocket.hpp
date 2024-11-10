@@ -1,5 +1,6 @@
-#ifndef WSCLIENT_H
-#define WSCLIENT_H
+#pragma once
+#ifndef WEBSOCKET_HPP
+#define WEBSOCKET_HPP
 
 #define ASIO_STANDALONE
 #include <asio/io_context.hpp>
@@ -8,11 +9,29 @@
 #include <memory>
 #include <nlohmann/json.hpp>
 #include "clientsync.hpp"
-#include "wstunnel.h"
+#include "threadpool.h"
+#include <asio/io_context.hpp>
+#include <iostream>
 
-typedef websocketpp::client<websocketpp::config::asio_client> client;
+typedef websocketpp::client<websocketpp::config::asio_client> Client;
 
 extern wsTunnel tunnel;
+class wsTunnel {
+public:
+	wsTunnel();
+
+	void start();
+
+	void stop();
+
+	asio::io_context& getiocontext();
+
+private:
+	asio::io_context iocontext;
+	Client ws_client_;
+	bool running_;
+
+};
 
 class wsClient {
 public:
@@ -24,7 +43,7 @@ public:
 	std::string createid();
 
 private:
-	client ws_client_;
+	Client ws_client_;
 	websocketpp::connection_hdl handle;
 	std::mutex responsemtx;
 	std::condition_variable responsecv;
@@ -34,7 +53,4 @@ private:
 	std::string createauth(std::string& challenge, std::string& salt);
 };
 
-
-
-
-#endif // !WSCLIENT_H
+#endif // !WEBSOCKET_HPP

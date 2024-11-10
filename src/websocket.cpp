@@ -1,14 +1,48 @@
-#include "wsclient.h"
+#include "websocket.hpp"
 #include "settings.hpp"
 #include <cryptopp/base64.h>
 #include <cryptopp/sha.h>
 #include <cryptopp/filters.h>
 #include <cryptopp/files.h>
 
+wsTunnel::wsTunnel() : running_(false) {
+	ws_client_.init_asio(&iocontext);
+}
+
+
+void wsTunnel::start() {
+	running_ = true;
+	gthreadpool.enqueueTask([this]() {
+		while (running_) {
+			try {
+				iocontext.run();
+				iocontext.reset();
+			}
+			catch (const std::exception& e) {
+				std::cerr << "wsTunnel error: " << e.what() << std::endl;
+			}
+		}
+
+		});
+
+}
+
+void wsTunnel::stop() {
+	running_ = false;
+	iocontext.stop();
+	ws_client_.stop();
+}
+
+asio::io_context& wsTunnel::getiocontext() {
+	return iocontext;
+}
+
+wsTunnel tunnel;
+
 wsClient::wsClient() : ws_client_() {
 	ws_client_.init_asio(&tunnel.getiocontext());
 	ws_client_.start_perpetual();
-	ws_client_.set_message_handler([this](websocketpp::connection_hdl, client::message_ptr msg) {
+	ws_client_.set_message_handler([this](websocketpp::connection_hdl, Client::message_ptr msg) {
 		msghandle(msg->get_payload());
 		});
 
@@ -20,18 +54,18 @@ void wsClient::connect(clientsync& syncdata) {
 	std::string port;
 	wsSettingshelper.readsetting("port") = port;
 	std::string wsurl = "ws://localhost:" + port;
-	client::connection_ptr con = ws_client_.get_connection(wsurl, ec);
-		if (ec) {
-			std::cerr << "failed to connect: " << ec.message() << std::endl;
-			return;
-		}
-		handle = con->get_handle();
-		ws_client_.connect(con);
-		{ 
-			std::lock_guard<std::mutex> lock(syncdata.clientmtx);
-			syncdata.ready = true;
-		}
-		syncdata.clientcv.notify_one();
+	Client::connection_ptr con = ws_client_.get_connection(wsurl, ec);
+	if (ec) {
+		std::cerr << "failed to connect: " << ec.message() << std::endl;
+		return;
+	}
+	handle = con->get_handle();
+	ws_client_.connect(con);
+	{
+		std::lock_guard<std::mutex> lock(syncdata.clientmtx);
+		syncdata.ready = true;
+	}
+	syncdata.clientcv.notify_one();
 }
 
 nlohmann::json wsClient::sendmsg(const nlohmann::json& message) {
@@ -87,12 +121,14 @@ bool wsClient::checkcon() {
 	return handshake;
 }
 
+//creates a unique id
 std::string wsClient::createid() {
 	auto now = std::chrono::system_clock::now();
 	auto millis = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
 	return "req" + std::to_string(millis);
 }
 
+//authkey creation
 std::string wsClient::createauth(std::string& challenge, std::string& salt) {
 	settingsreader wsSettingshelper("obswebsocket", globalsettings);
 	std::string password = wsSettingshelper.readsetting("password");
@@ -121,4 +157,3 @@ std::string wsClient::createauth(std::string& challenge, std::string& salt) {
 	//returns final result
 	return base64digest;
 }
-

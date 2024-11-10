@@ -1,118 +1,69 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="obsws.cpp">
-      <Filter>src\main functionality</Filter>
+    <ClCompile Include="src\obspolling.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="settings.cpp">
-      <Filter>src\core functionality</Filter>
+    <ClCompile Include="src\sceneswitch.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="logger.cpp">
-      <Filter>src\core functionality</Filter>
+    <ClCompile Include="src\logger.cpp">
+      <Filter>src\Parts that need work/cleanup</Filter>
     </ClCompile>
-    <ClCompile Include="imgrecog.cpp">
-      <Filter>src\main functionality</Filter>
+    <ClCompile Include="src\settings.cpp">
+      <Filter>src\Parts that need work/cleanup</Filter>
     </ClCompile>
-    <ClCompile Include="settingswindow.cpp">
-      <Filter>src\GUI Functionality</Filter>
+    <ClCompile Include="src\threadpool.cpp">
+      <Filter>src\Finished Parts</Filter>
     </ClCompile>
-    <ClCompile Include="mainwindow.cpp">
-      <Filter>src\GUI Functionality\main window</Filter>
+    <ClCompile Include="src\websocket.cpp">
+      <Filter>src\Parts currently being worked on</Filter>
     </ClCompile>
-    <ClCompile Include="text_panel.cpp">
-      <Filter>src\GUI Functionality\main window</Filter>
-    </ClCompile>
-    <ClCompile Include="console_panel.cpp">
-      <Filter>src\GUI Functionality\main window</Filter>
-    </ClCompile>
-    <ClCompile Include="event_table.cpp" />
-    <ClCompile Include="threadpool.cpp" />
-    <ClCompile Include="wstunnel.cpp">
-      <Filter>src\main functionality\Websocket</Filter>
-    </ClCompile>
-    <ClCompile Include="wsclient.cpp">
-      <Filter>src\main functionality\Websocket</Filter>
-    </ClCompile>
-    <ClCompile Include="sceneswitch.cpp">
-      <Filter>src\main functionality\OBS Scene Switching</Filter>
-    </ClCompile>
-    <ClCompile Include="imageprocessor.cpp">
-      <Filter>src\main functionality\OBS Scene Switching</Filter>
-    </ClCompile>
-    <ClCompile Include="obspolling.cpp">
-      <Filter>src\main functionality\OBS Scene Switching</Filter>
+    <ClCompile Include="src\sceneswitcher.cpp">
+      <Filter>src\Parts currently being worked on</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="obsws.hpp">
-      <Filter>src\main functionality</Filter>
+    <ClInclude Include="src\obspolling.hpp">
+      <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="settings.hpp">
-      <Filter>src\core functionality</Filter>
+    <ClInclude Include="src\sceneswitch.hpp">
+      <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="logger.hpp">
-      <Filter>src\core functionality</Filter>
+    <ClInclude Include="src\logger.hpp">
+      <Filter>src\Parts that need work/cleanup</Filter>
     </ClInclude>
-    <ClInclude Include="imgrecog.hpp">
-      <Filter>src\main functionality</Filter>
+    <ClInclude Include="src\settings.hpp">
+      <Filter>src\Parts that need work/cleanup</Filter>
     </ClInclude>
-    <ClInclude Include="settingswindow.hpp">
-      <Filter>src\GUI Functionality</Filter>
+    <ClInclude Include="src\threadpool.h">
+      <Filter>src\Finished Parts</Filter>
     </ClInclude>
-    <ClInclude Include="mainwindow.hpp">
-      <Filter>src\GUI Functionality\main window</Filter>
+    <ClInclude Include="src\clientsync.hpp">
+      <Filter>src\Finished Parts</Filter>
     </ClInclude>
-    <ClInclude Include="text_panel.hpp">
-      <Filter>src\GUI Functionality\main window</Filter>
+    <ClInclude Include="src\websocket.hpp">
+      <Filter>src\Parts currently being worked on</Filter>
     </ClInclude>
-    <ClInclude Include="console_panel.hpp">
-      <Filter>src\GUI Functionality\main window</Filter>
-    </ClInclude>
-    <ClInclude Include="event_table.h" />
-    <ClInclude Include="threadpool.h" />
-    <ClInclude Include="wstunnel.h">
-      <Filter>src\main functionality\Websocket</Filter>
-    </ClInclude>
-    <ClInclude Include="wsclient.h">
-      <Filter>src\main functionality\Websocket</Filter>
-    </ClInclude>
-    <ClInclude Include="sceneswitch.hpp">
-      <Filter>src\main functionality\OBS Scene Switching</Filter>
-    </ClInclude>
-    <ClInclude Include="imageprocessor.hpp">
-      <Filter>src\main functionality\OBS Scene Switching</Filter>
-    </ClInclude>
-    <ClInclude Include="obspolling.hpp">
-      <Filter>src\main functionality\OBS Scene Switching</Filter>
-    </ClInclude>
-    <ClInclude Include="clientsync.hpp">
-      <Filter>src\main functionality\Websocket</Filter>
+    <ClInclude Include="src\sceneswitcher.hpp">
+      <Filter>src\Parts currently being worked on</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="src">
       <UniqueIdentifier>{662df459-c80b-4eed-a2cb-6a606108d444}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\main functionality">
-      <UniqueIdentifier>{07df0984-7f6d-4d72-ab87-05d844dba17a}</UniqueIdentifier>
+    <Filter Include="src\Finished Parts">
+      <UniqueIdentifier>{d3642d43-8ba9-45f5-8230-adb5cf0d3539}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\core functionality">
-      <UniqueIdentifier>{1ab6fab9-59ac-46b0-b537-ea8f8977b291}</UniqueIdentifier>
+    <Filter Include="src\Parts that need work/cleanup">
+      <UniqueIdentifier>{2cd351c6-1edc-4901-aa1e-5b4195fa465f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\GUI Functionality">
-      <UniqueIdentifier>{df196c63-1190-4aa0-af93-af8bc5493e1b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\GUI Functionality\main window">
-      <UniqueIdentifier>{6ec7203a-36f1-4bd6-bb1e-229dcc801af1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\main functionality\Websocket">
-      <UniqueIdentifier>{f06960c9-6b92-49c5-bc74-1adf7653c446}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\main functionality\OBS Scene Switching">
-      <UniqueIdentifier>{cc8a9404-0192-499d-85d6-99516adfa1bd}</UniqueIdentifier>
+    <Filter Include="src\Parts currently being worked on">
+      <UniqueIdentifier>{04e36f52-ae50-4f0f-9186-c7d18bfd692d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

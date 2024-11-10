@@ -156,40 +156,24 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="clientsync.hpp" />
-    <ClInclude Include="console_panel.hpp" />
-    <ClInclude Include="event_table.h" />
-    <ClInclude Include="imageprocessor.hpp" />
-    <ClInclude Include="imgrecog.hpp" />
-    <ClInclude Include="logger.hpp" />
-    <ClInclude Include="mainwindow.hpp" />
-    <ClInclude Include="obspolling.hpp" />
-    <ClInclude Include="obsws.hpp" />
-    <ClInclude Include="sceneswitch.hpp" />
-    <ClInclude Include="settings.hpp" />
-    <ClInclude Include="settingswindow.hpp" />
-    <ClInclude Include="threadpool.h" />
-    <ClInclude Include="text_panel.hpp" />
-    <ClInclude Include="wsclient.h" />
-    <ClInclude Include="wstunnel.h" />
+    <ClInclude Include="src\clientsync.hpp" />
+    <ClInclude Include="src\logger.hpp" />
+    <ClInclude Include="src\obspolling.hpp" />
+    <ClInclude Include="src\sceneswitch.hpp" />
+    <ClInclude Include="src\sceneswitcher.hpp" />
+    <ClInclude Include="src\settings.hpp" />
+    <ClInclude Include="src\threadpool.h" />
+    <ClInclude Include="src\websocket.hpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="console_panel.cpp" />
-    <ClCompile Include="event_table.cpp" />
-    <ClCompile Include="imageprocessor.cpp" />
-    <ClCompile Include="imgrecog.cpp" />
-    <ClCompile Include="logger.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="mainwindow.cpp" />
-    <ClCompile Include="obspolling.cpp" />
-    <ClCompile Include="obsws.cpp" />
-    <ClCompile Include="sceneswitch.cpp" />
-    <ClCompile Include="settings.cpp" />
-    <ClCompile Include="settingswindow.cpp" />
-    <ClCompile Include="threadpool.cpp" />
-    <ClCompile Include="text_panel.cpp" />
-    <ClCompile Include="wsclient.cpp" />
-    <ClCompile Include="wstunnel.cpp" />
+    <ClCompile Include="src\logger.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\obspolling.cpp" />
+    <ClCompile Include="src\sceneswitch.cpp" />
+    <ClCompile Include="src\sceneswitcher.cpp" />
+    <ClCompile Include="src\settings.cpp" />
+    <ClCompile Include="src\threadpool.cpp" />
+    <ClCompile Include="src\websocket.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

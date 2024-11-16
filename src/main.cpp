@@ -16,15 +16,10 @@ public:
 wxIMPLEMENT_APP(moonbridgeapp);
 
 bool moonbridgeapp::OnInit() {
+	
+	// Main Window code here
 
-	//create and show the main window
-	mainwindow* mainWindow = new mainwindow("PH-MoonBridge v1.0");
-	mainWindow->Show(true);
 
-	//initialization function for the program
-	logger* logger = logger::loggerinit();
-	settings* settings = settings::settingsinit();
-	obsws* obsws = obsws::obswsinit();
 
 	return true;
 }

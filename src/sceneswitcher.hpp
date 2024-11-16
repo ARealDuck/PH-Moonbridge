@@ -33,7 +33,7 @@ public:
 	void start();
 	void stop();
 private:
-	std::string polledimgdata
+	std::string polledimgdata;
 
 };
 

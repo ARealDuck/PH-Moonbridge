@@ -25,6 +25,9 @@
     <ClCompile Include="src\sceneswitcher.cpp">
       <Filter>src\Parts currently being worked on</Filter>
     </ClCompile>
+    <ClCompile Include="src\winmain.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\obspolling.hpp">
@@ -50,6 +53,9 @@
     </ClInclude>
     <ClInclude Include="src\sceneswitcher.hpp">
       <Filter>src\Parts currently being worked on</Filter>
+    </ClInclude>
+    <ClInclude Include="src\winmain.h">
+      <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

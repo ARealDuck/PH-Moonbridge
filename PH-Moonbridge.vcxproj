@@ -164,6 +164,7 @@
     <ClInclude Include="src\settings.hpp" />
     <ClInclude Include="src\threadpool.h" />
     <ClInclude Include="src\websocket.hpp" />
+    <ClInclude Include="src\winmain.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\logger.cpp" />
@@ -174,6 +175,7 @@
     <ClCompile Include="src\settings.cpp" />
     <ClCompile Include="src\threadpool.cpp" />
     <ClCompile Include="src\websocket.cpp" />
+    <ClCompile Include="src\winmain.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

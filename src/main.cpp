@@ -1,25 +1,16 @@
-// main.cpp is the main runtime file in the project
-// TODO: Work and finish all modules
-// Includes
-// Modules
-#include "logger.hpp"
-#include "settings.hpp"
-#include "obsws.hpp"
-#include "mainwindow.hpp"
+#include "winmain.h"
 #include <wx/wx.h>
 
-class moonbridgeapp : public wxApp {
+class Moonbridgeapp : public wxApp {
 public:
 	virtual bool OnInit();
 };
 
-wxIMPLEMENT_APP(moonbridgeapp);
+wxIMPLEMENT_APP(Moonbridgeapp);
 
-bool moonbridgeapp::OnInit() {
-	
-	// Main Window code here
-
-
+bool Moonbridgeapp::OnInit() {
+	mainwin* frame = new mainwin(nullptr);
+	frame->Show(true);
 
 	return true;
 }

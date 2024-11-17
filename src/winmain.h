@@ -34,7 +34,7 @@
 class mainwin : public wxFrame
 {
 	private:
-
+		wxDECLARE_EVENT_TABLE();
 	protected:
 		wxMenuBar* m_menubar1;
 		wxMenu* mainmenusettings;

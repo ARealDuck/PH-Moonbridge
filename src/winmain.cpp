@@ -149,3 +149,5 @@ SettingsFrame::SettingsFrame( wxWindow* parent, wxWindowID id, const wxString& t
 SettingsFrame::~SettingsFrame()
 {
 }
+
+

@@ -28,6 +28,9 @@
     <ClCompile Include="src\winmain.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\customevents.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\obspolling.hpp">
@@ -55,6 +58,9 @@
       <Filter>src\Parts currently being worked on</Filter>
     </ClInclude>
     <ClInclude Include="src\winmain.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\customevents.h">
       <Filter>src</Filter>
     </ClInclude>
   </ItemGroup>

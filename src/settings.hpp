@@ -5,52 +5,21 @@
 #include <string>
 #include <filesystem>
 
+// Define all settings and values here globally with defaults
+std::string OBSPassword;
+std::string OBSPort;
+std::string OBSUrl;
+
+
 class settings {
 public:
 	settings();
-	nlohmann::json getsettings();
-	int geteditver();
-
-	nlohmann::json mastersettings;
+	
+	~settings();
 private:
-	friend class settingsreader;
-	friend class settingseditor;
-
-	bool loadfromdisk();
-	void savetodisk();
-	std::filesystem::path filename = "settings.json";
-	void defaultstemplate();
-	bool settingsempty;
-	int editver = 1;
+	bool isSettingsLoaded = false;
 };
 
 extern settings globalsettings;
-
-class settingsreader {
-
-protected:
-	nlohmann::json settingssection;
-public: 
-	settingsreader(const std::string& section, settings& settingsmaster);
-	~settingsreader() = default;
-
-	std::string readsetting(const std::string& key);
-private:
-	int editsver;
-};
-
-class settingseditor {
-
-protected:
-	nlohmann::json settingssection;
-public:
-	settingseditor(std::string& section, settings& settingsmaster);
-	~settingseditor() = default;
-
-	void editsetting(std::string& key, std::string& value);
-private:
-	std::string sectionname;
-	void applysetting();
-};
 
 #endif // !SETTINGS_HPP

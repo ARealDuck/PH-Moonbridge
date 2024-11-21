@@ -3,83 +3,34 @@
 #include <fstream>
 
 settings::settings() {
-	if (!loadfromdisk()) {
-		std::cerr << "loadfromdisk failed to start";
-	}
-}
-
-nlohmann::json settings::getsettings() {
-	return mastersettings;
-}
-
-int settings::geteditver() {
-	return editver;
-}
-
-bool settings::loadfromdisk() {
 	std::ifstream settingsfile("settings.json");
 	if (settingsfile.is_open()) {
-		settingsfile >> mastersettings;
+		nlohmann::json loadedsettings;
+		settingsfile >> loadedsettings;
 		settingsfile.close();
-		settingsempty = true;
-		return true;
-	}
-	else {
-		defaultstemplate();
-		settingsempty = false;
-		return false;
+		// This is a stupid awful terrible way of handling this. too bad!
+		// if you add more settings to the program be sure to update this and if you dont then ill laugh at you (or my future self!)
+		OBSPassword = loadedsettings["OBSPassword"];
+		OBSPort = loadedsettings["OBSPort"];
+		OBSUrl = loadedsettings["OBSUrl"];
+
+		isSettingsLoaded = true;
 	}
 }
 
-void settings::savetodisk() {
-	std::ofstream settingsfile("settings.json");
-	if (settingsfile.is_open()) {
-		settingsfile << mastersettings.dump(4);
-		settingsfile.close();
-	}
-	else {
-		// Logger call here
+settings::~settings() {
+	if (isSettingsLoaded) {
+		nlohmann::json SettingsToSave;
+		SettingsToSave["OBSPassword"] = OBSPassword;
+		SettingsToSave["OBSPort"] = OBSPort;
+		SettingsToSave["OBSUrl"] = OBSUrl;
+
+		std::ofstream outputfile("settings.json");
+		if (outputfile.is_open()) {
+			outputfile << std::setw(4) << SettingsToSave;
+			outputfile.close();
+		}
 	}
 }
 
-void settings::defaultstemplate() {
-	// TODO: create template for defaults to fit into
-	// start work on this when work on other modules starts.
-}
-
-settingsreader::settingsreader(const std::string& section, settings& settingsmaster) {
-	if (settingsmaster.getsettings().contains(section)) {
-		settingssection = settingsmaster.getsettings()[section];
-	}
-	else {
-	 // Logger call here
-	}
-	editsver = settingsmaster.geteditver();
-}
-std::string settingsreader::readsetting(const std::string& key) {
-	if (settingssection.contains(key)) {
-		return settingssection.at(key).get<std::string>();
-	}
-	else {
-		return "";
-	}
-}
-
-settingseditor::settingseditor(std::string& section, settings& settingsmaster) {
-	sectionname = section;
-	if (settingsmaster.getsettings().contains(section)) {
-		settingssection = settingsmaster.getsettings()[section];
-	}
-	else {
-		// Logger call here
-	}
-}
-void settingseditor::editsetting(std::string& key, std::string& value) {
-	settingssection[key] = value;
-}
-
-void settingseditor::applysetting() {
-	globalsettings.getsettings()[sectionname] = settingssection;
-	globalsettings.savetodisk();
-}
 settings globalsettings;

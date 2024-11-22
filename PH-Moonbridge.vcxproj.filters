@@ -4,12 +4,6 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\obspolling.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sceneswitch.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
     <ClCompile Include="src\sceneswitcher.cpp">
       <Filter>src\Parts currently being worked on</Filter>
     </ClCompile>
@@ -33,12 +27,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\obspolling.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\sceneswitch.hpp">
-      <Filter>src</Filter>
-    </ClInclude>
     <ClInclude Include="src\sceneswitcher.hpp">
       <Filter>src\Parts currently being worked on</Filter>
     </ClInclude>

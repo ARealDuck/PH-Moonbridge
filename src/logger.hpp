@@ -4,7 +4,6 @@
 //includes
 #include <string>
 #include <vector>
-#include "console_panel.hpp"
 
 // enum declared before class declatation
 enum loglevel {
@@ -29,7 +28,6 @@ public:
 
 	// External module functions & containers
 	void add(loglevel level, const std::string& message);
-	wxString lastlog();
 
 private:
 	// Constructor, Destructor, and Singleton Disablers

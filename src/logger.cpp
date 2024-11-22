@@ -33,32 +33,6 @@ logger::~logger() {
 	save();
 	
 }
-// add
-void logger::add(loglevel level, const std::string& message) {
-	if (level == debug && debugmode == true) {
-		std::string logformatted = format(level, message);
-		history.push_back(logformatted);
-		save();
-		LogPanel* panel = LogPanel::getinstance();
-		if (panel != nullptr) {
-			panel->appendtext(logformatted);
-		}
-		return;
-	}
-	else if (level == debug && debugmode == false) {
-		return;
-	}
-	else {
-		std::string logformatted = format(level, message);
-		history.push_back(logformatted);
-		save();
-		LogPanel* panel = LogPanel::getinstance();
-		if (panel != nullptr) {
-			panel->appendtext(logformatted);
-		}
-		return;
-	}
-}
 // save
 void logger::save() {
 	std::string filename = date() + ".txt";
@@ -111,12 +85,4 @@ std::string logger::levelstring(loglevel level) {
 		default:
 			return "[UNKNOWN]";
 	}
-}
-// lastlog
-wxString logger::lastlog() {
-	if (!logger::history.empty()) {
-		wxString LastLog = history.back();
-		return LastLog;
-	}
-	return "log is empty!!!";
 }

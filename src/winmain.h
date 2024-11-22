@@ -34,13 +34,17 @@
 class mainwin : public wxFrame
 {
 	private:
-		wxDECLARE_EVENT_TABLE();
+
 	protected:
 		wxMenuBar* m_menubar1;
 		wxMenu* mainmenusettings;
 		wxStaticText* m_staticText5;
 		wxStaticText* m_staticText6;
 		wxTextCtrl* OutputTextCtrl;
+
+		// Virtual event handlers, override them in your derived class
+		virtual void opensettingswindow( wxCommandEvent& event ) { event.Skip(); }
+
 
 	public:
 
@@ -58,6 +62,12 @@ class SettingsFrame : public wxFrame
 	private:
 
 	protected:
+		wxStaticText* OBSPasswordLabel;
+		wxTextCtrl* OBSPasswordBox;
+		wxStaticText* OBSPortLabel;
+		wxTextCtrl* OBSPortBox;
+		wxStaticText* OBSUrlLabel;
+		wxTextCtrl* OBSUrlBox;
 
 	public:
 

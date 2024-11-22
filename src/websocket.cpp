@@ -49,11 +49,8 @@ wsClient::wsClient() : ws_client_() {
 }
 
 void wsClient::connect(clientsync& syncdata) {
-	settingsreader wsSettingshelper("obswebsocket", globalsettings);
 	websocketpp::lib::error_code ec;
-	std::string port;
-	wsSettingshelper.readsetting("port") = port;
-	std::string wsurl = "ws://localhost:" + port;
+	std::string wsurl = settingsvar::OBSUrl + settingsvar::OBSPort;
 	Client::connection_ptr con = ws_client_.get_connection(wsurl, ec);
 	if (ec) {
 		std::cerr << "failed to connect: " << ec.message() << std::endl;
@@ -130,8 +127,7 @@ std::string wsClient::createid() {
 
 //authkey creation
 std::string wsClient::createauth(std::string& challenge, std::string& salt) {
-	settingsreader wsSettingshelper("obswebsocket", globalsettings);
-	std::string password = wsSettingshelper.readsetting("password");
+	std::string password = settingsvar::OBSPassword;
 	std::string input = password + salt;
 
 	// First hash (SHA256)

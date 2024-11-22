@@ -15,7 +15,6 @@
 
 typedef websocketpp::client<websocketpp::config::asio_client> Client;
 
-extern wsTunnel tunnel;
 class wsTunnel {
 public:
 	wsTunnel();
@@ -32,6 +31,8 @@ private:
 	bool running_;
 
 };
+
+extern wsTunnel tunnel;
 
 class wsClient {
 public:

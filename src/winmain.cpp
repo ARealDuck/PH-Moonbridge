@@ -132,6 +132,9 @@ mainwin::mainwin( wxWindow* parent, wxWindowID id, const wxString& title, const 
 	this->Layout();
 
 	this->Centre( wxBOTH );
+
+	// Connect Events
+	mainmenusettings->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( mainwin::opensettingswindow ), this, settingsprgmsettings->GetId());
 }
 
 mainwin::~mainwin()
@@ -142,6 +145,41 @@ SettingsFrame::SettingsFrame( wxWindow* parent, wxWindowID id, const wxString& t
 {
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 
+	wxStaticBoxSizer* OBSWSSettingsSizer;
+	OBSWSSettingsSizer = new wxStaticBoxSizer( new wxStaticBox( this, wxID_ANY, _("OBS Websocket Settings") ), wxVERTICAL );
+
+	wxFlexGridSizer* fgSizer3;
+	fgSizer3 = new wxFlexGridSizer( 0, 2, 0, 0 );
+	fgSizer3->SetFlexibleDirection( wxBOTH );
+	fgSizer3->SetNonFlexibleGrowMode( wxFLEX_GROWMODE_SPECIFIED );
+
+	OBSPasswordLabel = new wxStaticText( OBSWSSettingsSizer->GetStaticBox(), wxID_ANY, _("OBS Password:"), wxDefaultPosition, wxDefaultSize, 0 );
+	OBSPasswordLabel->Wrap( -1 );
+	fgSizer3->Add( OBSPasswordLabel, 0, wxALIGN_LEFT|wxALL, 5 );
+
+	OBSPasswordBox = new wxTextCtrl( OBSWSSettingsSizer->GetStaticBox(), wxID_ANY, _("Placeholder"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer3->Add( OBSPasswordBox, 0, wxALIGN_LEFT|wxALL, 5 );
+
+	OBSPortLabel = new wxStaticText( OBSWSSettingsSizer->GetStaticBox(), wxID_ANY, _("OBS Port:"), wxDefaultPosition, wxDefaultSize, 0 );
+	OBSPortLabel->Wrap( -1 );
+	fgSizer3->Add( OBSPortLabel, 0, wxALL, 5 );
+
+	OBSPortBox = new wxTextCtrl( OBSWSSettingsSizer->GetStaticBox(), wxID_ANY, _("Placeholder"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer3->Add( OBSPortBox, 0, wxALL, 5 );
+
+	OBSUrlLabel = new wxStaticText( OBSWSSettingsSizer->GetStaticBox(), wxID_ANY, _("OBS Url:"), wxDefaultPosition, wxDefaultSize, 0 );
+	OBSUrlLabel->Wrap( -1 );
+	fgSizer3->Add( OBSUrlLabel, 0, wxALL, 5 );
+
+	OBSUrlBox = new wxTextCtrl( OBSWSSettingsSizer->GetStaticBox(), wxID_ANY, _("Placeholder"), wxDefaultPosition, wxDefaultSize, 0 );
+	fgSizer3->Add( OBSUrlBox, 0, wxALL, 5 );
+
+
+	OBSWSSettingsSizer->Add( fgSizer3, 1, wxEXPAND, 5 );
+
+
+	this->SetSizer( OBSWSSettingsSizer );
+	this->Layout();
 
 	this->Centre( wxBOTH );
 }
@@ -149,5 +187,3 @@ SettingsFrame::SettingsFrame( wxWindow* parent, wxWindowID id, const wxString& t
 SettingsFrame::~SettingsFrame()
 {
 }
-
-

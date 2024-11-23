@@ -9,9 +9,9 @@
 // This is not a good way of doing this and in reality it should be encapsulated within the settings class itself but im lazy and want to get this over with.
 // yes this will eventually cause a race condition but honestly the potential case for that happening is so slim its not worth writing the extra code to fix it.
 namespace settingsvar {
-	extern std::string OBSPassword = "defaulted";
-	extern std::string OBSPort = "4455";
-	extern std::string OBSUrl = "ws://localhost:";
+	extern std::string OBSPassword;
+	extern std::string OBSPort;
+	extern std::string OBSUrl;
 }
 
 class settings {

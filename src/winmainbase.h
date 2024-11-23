@@ -29,9 +29,9 @@
 ///////////////////////////////////////////////////////////////////////////
 
 ///////////////////////////////////////////////////////////////////////////////
-/// Class mainwin
+/// Class WinMainBase
 ///////////////////////////////////////////////////////////////////////////////
-class mainwin : public wxFrame
+class WinMainBase : public wxFrame
 {
 	private:
 
@@ -48,9 +48,9 @@ class mainwin : public wxFrame
 
 	public:
 
-		mainwin( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("PH_Moonbridge"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1000,600 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		WinMainBase( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = _("PH_Moonbridge"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1000,600 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 
-		~mainwin();
+		~WinMainBase();
 
 };
 

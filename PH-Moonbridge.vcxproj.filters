@@ -19,10 +19,13 @@
     <ClCompile Include="src\settings.cpp">
       <Filter>src\Misc</Filter>
     </ClCompile>
+    <ClCompile Include="src\customevents.cpp">
+      <Filter>src\Frontend</Filter>
+    </ClCompile>
     <ClCompile Include="src\winmain.cpp">
       <Filter>src\Frontend</Filter>
     </ClCompile>
-    <ClCompile Include="src\customevents.cpp">
+    <ClCompile Include="src\winmainbase.cpp">
       <Filter>src\Frontend</Filter>
     </ClCompile>
   </ItemGroup>
@@ -45,10 +48,13 @@
     <ClInclude Include="src\settings.hpp">
       <Filter>src\Misc</Filter>
     </ClInclude>
-    <ClInclude Include="src\winmain.h">
+    <ClInclude Include="src\customevents.h">
       <Filter>src\Frontend</Filter>
     </ClInclude>
-    <ClInclude Include="src\customevents.h">
+    <ClInclude Include="src\winmain.hpp">
+      <Filter>src\Frontend</Filter>
+    </ClInclude>
+    <ClInclude Include="src\winmainbase.h">
       <Filter>src\Frontend</Filter>
     </ClInclude>
   </ItemGroup>

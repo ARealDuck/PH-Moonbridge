@@ -163,7 +163,8 @@
     <ClInclude Include="src\settings.hpp" />
     <ClInclude Include="src\threadpool.h" />
     <ClInclude Include="src\websocket.hpp" />
-    <ClInclude Include="src\winmain.h" />
+    <ClInclude Include="src\winmain.hpp" />
+    <ClInclude Include="src\winmainbase.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\customevents.cpp" />
@@ -174,6 +175,7 @@
     <ClCompile Include="src\threadpool.cpp" />
     <ClCompile Include="src\websocket.cpp" />
     <ClCompile Include="src\winmain.cpp" />
+    <ClCompile Include="src\winmainbase.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

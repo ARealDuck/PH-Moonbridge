@@ -2,6 +2,14 @@
 #include <iostream>
 #include <fstream>
 
+// settings with their defaults set
+// look in the header file for a description.
+namespace settingsvar {
+	std::string OBSPassword = "defaulted";
+	std::string OBSPort = "4455";
+	std::string OBSUrl = "ws://localhost:";
+}
+
 settings::settings() {
 	loadsettings();
 }
@@ -49,7 +57,5 @@ void settings::loadsettings() {
 		}
 	}
 }
-
-
 
 settings globalsettings;

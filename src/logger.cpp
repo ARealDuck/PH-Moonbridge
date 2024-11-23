@@ -6,28 +6,18 @@
 #include <iostream>
 #include <fstream>
 
-
-// init
-logger* logger::instance = nullptr;
-logger* logger::loggerinit() {
-	if (instance == nullptr) {
-		instance = new logger();
-	}
-	return instance;
+void logger::add(loglevel level, const std::string& message) {
 }
-// contructor
 logger::logger() {
 	std::ifstream debugcheck("debugmode.txt");
 	if (!debugcheck.is_open()) {
-		add(info, "logger initialized");
 		return;
 	}
 	else {
 		debugmode& (true);
-		add(debug, "logger initialized in debug mode");
+		add(debug, "Moonbridge started in debug mode.");
 	}
 }
-// destructor
 logger::~logger() {
 	add(debug, "logger module stop function called!!!");
 	save();
@@ -86,3 +76,6 @@ std::string logger::levelstring(loglevel level) {
 			return "[UNKNOWN]";
 	}
 }
+
+
+logger globallogger;

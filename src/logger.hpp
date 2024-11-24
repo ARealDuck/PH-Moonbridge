@@ -1,11 +1,11 @@
 #ifndef LOGGER_HPP
 #define LOGGER_HPP
 
-//includes
+#include "customevents.h"
+#include "winmain.hpp"
 #include <string>
 #include <vector>
 
-// enum declared before class declatation
 enum loglevel {
 	info,
 	warn,
@@ -29,6 +29,7 @@ private:
 	std::vector <std::string> history;
 	std::string levelstring(loglevel level);
 	void save();
+	void wxevent(wxEvtHandler* handler, const wxString& text);
 
 };
 

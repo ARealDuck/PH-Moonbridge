@@ -7,6 +7,29 @@
 #include <fstream>
 
 void logger::add(loglevel level, const std::string& message) {
+	if (level == debug && debugmode == true) {
+		std::string logformatted = format(level, message);
+		history.push_back(logformatted);
+		save();
+		wxevent(WinMain, logformatted);
+		if (panel != nullptr) {
+			panel->appendtext(logformatted);
+		}
+		return;
+	}
+	else if (level == debug && debugmode == false) {
+		return;
+	}
+	else {
+		std::string logformatted = format(level, message);
+		history.push_back(logformatted);
+		save();
+		LogPanel* panel = LogPanel::getinstance();
+		if (panel != nullptr) {
+			panel->appendtext(logformatted);
+		}
+		return;
+	}
 }
 logger::logger() {
 	std::ifstream debugcheck("debugmode.txt");
@@ -32,6 +55,11 @@ void logger::save() {
 			logfile << item << std::endl;
 	logfile.close();
 	add(debug, "log file saved.");
+}
+void logger::wxevent(wxEvtHandler* handler, const wxString& newtext) {
+	OutputTextCtrlTextUpdateEvent event(OUTPUT_TEXT_CTRL_TEXT_UPDATE_EVENT);
+	event.text = newtext;
+	wxPostEvent(handler, event);
 }
 // time
 std::string logger::time() {

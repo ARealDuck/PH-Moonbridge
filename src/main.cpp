@@ -1,5 +1,5 @@
-#include "winmain.hpp"
 #include <wx/wx.h>
+#include "winmain.hpp"
 
 class Moonbridgeapp : public wxApp {
 public:
@@ -10,8 +10,7 @@ public:
 wxIMPLEMENT_APP(Moonbridgeapp);
 
 bool Moonbridgeapp::OnInit() {
-	WinMain* frame = new WinMain(nullptr);
+	MoonbridgeWin *frame = new MoonbridgeWin(nullptr);
 	frame->Show(true);
-
 	return true;
 }

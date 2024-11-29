@@ -4,9 +4,9 @@
 #include "winmainbase.h"
 #include "customevents.h"
 
-class WinMain : public WinMainBase {
+class MoonbridgeWin : public WinMainBase {
 public:
-	WinMain(wxWindow* parent);
+	MoonbridgeWin(wxWindow* parent);
 
 	// Define custom event functions here.
 	void OutputTextCtrlTextUpdate(OutputTextCtrlTextUpdateEvent& event);

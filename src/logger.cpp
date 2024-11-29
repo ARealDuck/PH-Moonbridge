@@ -11,11 +11,7 @@ void logger::add(loglevel level, const std::string& message) {
 		std::string logformatted = format(level, message);
 		history.push_back(logformatted);
 		save();
-		wxevent(WinMain, logformatted);
-		if (panel != nullptr) {
-			panel->appendtext(logformatted);
-		}
-		return;
+		wxevent(MoonbridgeWin, logformatted);
 	}
 	else if (level == debug && debugmode == false) {
 		return;
@@ -24,11 +20,7 @@ void logger::add(loglevel level, const std::string& message) {
 		std::string logformatted = format(level, message);
 		history.push_back(logformatted);
 		save();
-		LogPanel* panel = LogPanel::getinstance();
-		if (panel != nullptr) {
-			panel->appendtext(logformatted);
-		}
-		return;
+		wxevent(MoonbridgeWin, logformatted);
 	}
 }
 logger::logger() {

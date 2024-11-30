@@ -11,7 +11,7 @@ void logger::add(loglevel level, const std::string& message) {
 		std::string logformatted = format(level, message);
 		history.push_back(logformatted);
 		save();
-		wxevent(MoonbridgeWin, logformatted);
+		GEventManager.PostOutputCtrlEvent(logformatted);
 	}
 	else if (level == debug && debugmode == false) {
 		return;
@@ -20,7 +20,7 @@ void logger::add(loglevel level, const std::string& message) {
 		std::string logformatted = format(level, message);
 		history.push_back(logformatted);
 		save();
-		wxevent(MoonbridgeWin, logformatted);
+		GEventManager.PostOutputCtrlEvent(logformatted);
 	}
 }
 logger::logger() {
@@ -47,11 +47,6 @@ void logger::save() {
 			logfile << item << std::endl;
 	logfile.close();
 	add(debug, "log file saved.");
-}
-void logger::wxevent(wxEvtHandler* handler, const wxString& newtext) {
-	OutputTextCtrlTextUpdateEvent event(OUTPUT_TEXT_CTRL_TEXT_UPDATE_EVENT);
-	event.text = newtext;
-	wxPostEvent(handler, event);
 }
 // time
 std::string logger::time() {
@@ -98,4 +93,4 @@ std::string logger::levelstring(loglevel level) {
 }
 
 
-logger globallogger;
+logger GLogger;

@@ -1,7 +1,7 @@
 #ifndef LOGGER_HPP
 #define LOGGER_HPP
 
-#include "customevents.h"
+#include "eventmanager.hpp"
 #include "winmain.hpp"
 #include <string>
 #include <vector>
@@ -29,10 +29,9 @@ private:
 	std::vector <std::string> history;
 	std::string levelstring(loglevel level);
 	void save();
-	void wxevent(wxEvtHandler* handler, const wxString& text);
 
 };
 
-extern logger globallogger;
+extern logger GLogger;
 
 #endif // !LOGGER_HPP

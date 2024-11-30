@@ -1,5 +1,6 @@
 #include "websocket.hpp"
 #include "settings.hpp"
+#include "logger.hpp"
 #include <cryptopp/base64.h>
 #include <cryptopp/sha.h>
 #include <cryptopp/filters.h>
@@ -53,7 +54,8 @@ void wsClient::connect(clientsync& syncdata) {
 	std::string wsurl = settingsvar::OBSUrl + settingsvar::OBSPort;
 	Client::connection_ptr con = ws_client_.get_connection(wsurl, ec);
 	if (ec) {
-		std::cerr << "failed to connect: " << ec.message() << std::endl;
+		std::string errorm = "client failed to connect" + 
+		GLogger.add(info,)
 		return;
 	}
 	handle = con->get_handle();

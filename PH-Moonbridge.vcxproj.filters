@@ -28,7 +28,7 @@
     <ClCompile Include="src\winmainbase.cpp">
       <Filter>src\Frontend</Filter>
     </ClCompile>
-    <ClCompile Include="eventmanager.cpp">
+    <ClCompile Include="src\eventmanager.cpp">
       <Filter>src\Frontend</Filter>
     </ClCompile>
   </ItemGroup>
@@ -60,7 +60,7 @@
     <ClInclude Include="src\winmainbase.h">
       <Filter>src\Frontend</Filter>
     </ClInclude>
-    <ClInclude Include="eventmanager.hpp">
+    <ClInclude Include="src\eventmanager.hpp">
       <Filter>src\Frontend</Filter>
     </ClInclude>
   </ItemGroup>

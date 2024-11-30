@@ -1,6 +1,8 @@
 #include "winmain.hpp"
+#include "eventmanager.hpp"
 
 MoonbridgeWin::MoonbridgeWin(wxWindow* parent) : WinMainBase(parent) {
+	GEventManager.registerhandler(this);
 	Bind(OUTPUT_TEXT_CTRL_TEXT_UPDATE_EVENT, &MoonbridgeWin::OutputTextCtrlTextUpdate, this);
 }
 
@@ -8,7 +10,7 @@ MoonbridgeWin::MoonbridgeWin(wxWindow* parent) : WinMainBase(parent) {
 void MoonbridgeWin::OutputTextCtrlTextUpdate(OutputTextCtrlTextUpdateEvent& event) {
 	wxString CurrentText = OutputTextCtrl->GetValue();
 	if (!CurrentText.IsEmpty()) {
-		CurrentText += "/n";
+		CurrentText += "\n";
 	}
 	CurrentText += event.text;
 	OutputTextCtrl->SetValue(CurrentText);

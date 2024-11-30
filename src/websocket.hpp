@@ -1,4 +1,3 @@
-#pragma once
 #ifndef WEBSOCKET_HPP
 #define WEBSOCKET_HPP
 

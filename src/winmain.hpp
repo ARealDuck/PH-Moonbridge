@@ -12,7 +12,6 @@ public:
 	void OutputTextCtrlTextUpdate(OutputTextCtrlTextUpdateEvent& event);
 
 private:
-	wxDECLARE_EVENT_TABLE();
 };
 
 

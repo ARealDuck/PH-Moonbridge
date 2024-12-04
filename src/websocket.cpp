@@ -13,6 +13,7 @@ wsTunnel::wsTunnel() : running_(false) {
 
 void wsTunnel::start() {
 	running_ = true;
+	GLogger.add(debug, "Starting Websocket I/O Tunnel.");
 	gthreadpool.enqueueTask([this]() {
 		while (running_) {
 			try {
@@ -20,7 +21,7 @@ void wsTunnel::start() {
 				iocontext.reset();
 			}
 			catch (const std::exception& e) {
-				std::cerr << "wsTunnel error: " << e.what() << std::endl;
+				GLogger.add(crit, "Websocket Tunnel Failed to start!!!");
 			}
 		}
 
@@ -54,8 +55,7 @@ void wsClient::connect(clientsync& syncdata) {
 	std::string wsurl = settingsvar::OBSUrl + settingsvar::OBSPort;
 	Client::connection_ptr con = ws_client_.get_connection(wsurl, ec);
 	if (ec) {
-		std::string errorm = "client failed to connect" + 
-		GLogger.add(info,)
+		GLogger.add(info, "Client Failed to connect!");
 		return;
 	}
 	handle = con->get_handle();
@@ -106,10 +106,11 @@ void wsClient::msghandle(const std::string& reponse) {
 		}
 		if (lastreponse.contains("op") && lastreponse["op"] == "2") {
 			handshake = true;
+			GLogger.add(info, "Websocket Client successfully established A connection with OBSWebsocket!");
 		}
 	}
 	catch (nlohmann::json::parse_error& e) {
-		std::cerr << "failed to parse reponse message: " << e.what() << " returning blank json." << std::endl;
+		GLogger.add(warn, "Failed to parse a Websocket message! Bug is likely to occur!!!");
 		lastreponse = nlohmann::json{};
 	}
 	responseready = true;

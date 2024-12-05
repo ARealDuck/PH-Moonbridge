@@ -1,50 +1,41 @@
 #ifndef THREADPOOL_H
 #define THREADPOOL_H
 
+#include <boost/asio.hpp>
 #include <vector>
-#include <queue>
 #include <thread>
-#include <mutex>
-#include <condition_variable>
 #include <functional>
-#include <atomic>
+#include "logger.hpp"
 
-class threadpool {
+class ThreadPool {
 public:
-	// Constructor only used to create object globally DOES NOT START THREADPOOL
-	// minThreads is used to hardcode set a given minumum amount of threads
-	threadpool(size_t minThreads = 6);
+	explicit ThreadPool(size_t num_threads = std::thread::hardware_concurrency()) : io_context(), work_guard(boost::asio::make_work_guard(io_context)) {
+		// fallback when hardware concurrency failed to fetch threads or thread number is under the default of (4)
+		if (num_threads > 4) {
+			GLogger.add(warn, "threadpool failed to get system threads or system threads is less than 4 defaulting to the minumum expected (4) ");
+			num_threads = 4;
+		}
 
-	// Destructor for cleanup if needed
-	~threadpool();
+		// Threadpool creation
+		for (size_t i = 0; i < num_threads; ++i) {
+			workers.emplace_back([this] { io_context.run(); });
+		}
+		GLogger.add(info, "threadpool initialized with " + std::to_string(num_threads) + " Threads");
+	}
+	~ThreadPool();
 
-	//method to call to enqueue tasks
-	// REQUIRES TASK TO BE PUT IN THIS BLOCK OF CODE gthreadpool.enqueueTask([this]() { "CODE BLOCK HERE" });
-	void enqueueTask(std::function<void()> task);
-
-	// start function to create threadpool
-	// I have to seperate this functionality away from the global contructor to avoid multithreading conflicts with the GUI Library regarding the main thread.
-	void start();
+	// Submit Tasks
+	template <typename Func>
+	void submit(Func&& func) {
+		boost::asio::post(io_context, std::forward<Func>(func));
+	}
 private:
-	// function executed by each thread
-	void worker();
+	boost::asio::io_context io_context;
+	boost::asio::executor_work_guard<boost::asio::io_context::executor_type> work_guard;
+	std::vector<std::thread> workers;
 
-	// storage method for threads
-	std::vector <std::thread> threads;
-	// queue for tasks
-	std::queue < std::function<void()>> tasks;
-	std::mutex queuemtx;
-	std::condition_variable condition;
-	std::atomic<bool> stop;
-	
-	// min and max threads to be set
-	// min threads is hardcoded in the constructor while max threads is set by hardware
-	// min thread ignores maxthreads in the case where hardware threads is lower than the minimum
-	size_t minThreads;
-	size_t maxThreads;
 };
 
-extern threadpool gthreadpool;
-
+extern ThreadPool GThreadPool
 #endif // !THREADPOOL_H
 

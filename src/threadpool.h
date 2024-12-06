@@ -27,6 +27,7 @@ public:
 	// Submit Tasks
 	template <typename Func>
 	void submit(Func&& func) {
+		GLogger.add(info, "Function passed, Executing.");
 		boost::asio::post(io_context, std::forward<Func>(func));
 	}
 private:
@@ -36,6 +37,5 @@ private:
 
 };
 
-extern ThreadPool GThreadPool
+extern ThreadPool GThreadPool;
 #endif // !THREADPOOL_H
-

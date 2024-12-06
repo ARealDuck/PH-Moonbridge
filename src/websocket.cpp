@@ -1,24 +1,29 @@
 #include "websocket.hpp"
 #include "settings.hpp"
 #include "logger.hpp"
+
 #include <cryptopp/base64.h>
 #include <cryptopp/sha.h>
 #include <cryptopp/filters.h>
 #include <cryptopp/files.h>
 
-wsTunnel::wsTunnel() : running_(false) {
-	ws_client_.init_asio(&iocontext);
+wsTunnel::wsTunnel() : tunneliocontext(), WorkGuard_(asio::make_work_guard(tunneliocontext)), running_(false) {
+	ws_client_.init_asio(&tunneliocontext);
 }
 
 
 void wsTunnel::start() {
 	running_ = true;
 	GLogger.add(debug, "Starting Websocket I/O Tunnel.");
-	gthreadpool.enqueueTask([this]() {
+	GThreadPool.submit([this]() {
 		while (running_) {
 			try {
-				iocontext.run();
-				iocontext.reset();
+				if (tunneliocontext.stopped()) {
+					GLogger.add(info, "iocontext signaled as stopped, resetting.");
+					tunneliocontext.reset();
+				}
+				GLogger.add(info, "Attempting to run iocontext.");
+				tunneliocontext.run();
 			}
 			catch (const std::exception& e) {
 				GLogger.add(crit, "Websocket Tunnel Failed to start!!!");
@@ -31,12 +36,14 @@ void wsTunnel::start() {
 
 void wsTunnel::stop() {
 	running_ = false;
-	iocontext.stop();
+	tunneliocontext.stop();
+	GLogger.add(info, "iocontext stopped.");
+	WorkGuard_.reset();
 	ws_client_.stop();
 }
 
 asio::io_context& wsTunnel::getiocontext() {
-	return iocontext;
+	return tunneliocontext;
 }
 
 wsTunnel tunnel;

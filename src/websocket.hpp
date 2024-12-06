@@ -25,9 +25,10 @@ public:
 	asio::io_context& getiocontext();
 
 private:
-	asio::io_context iocontext;
+	asio::io_context tunneliocontext;
+	asio::executor_work_guard<asio::io_context::executor_type> WorkGuard_;
 	Client ws_client_;
-	bool running_;
+	std::atomic<bool> running_;
 
 };
 

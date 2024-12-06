@@ -5,7 +5,6 @@
     "cryptopp",
     "nlohmann-json",
     "websocketpp",
-    "wxwidgets",
-    "concurrencpp"
+    "wxwidgets"
   ]
 }

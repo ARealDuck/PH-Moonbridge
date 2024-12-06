@@ -16,11 +16,9 @@ wxIMPLEMENT_APP(Moonbridgeapp);
 bool Moonbridgeapp::OnInit() {
 	MoonbridgeWin *frame = new MoonbridgeWin(nullptr);
 	frame->Show(true);
-	gthreadpool.start();
 	GLogger.add(info, "Threadpool Started!");
 	tunnel.start();
 	clientsync clientsync;
 	wsClient runtimeclient;
-	runtimeclient.connect(clientsync);
 	return true;
 }

@@ -5,17 +5,21 @@
 #include <sstream>
 #include <iostream>
 #include <fstream>
+#include <nlohmann/json.hpp>
 
 void logger::add(loglevel level, const std::string& message) {
+	// Check if message is Debug and Debugging is enabled
 	if (level == debug && debugmode == true) {
 		std::string logformatted = format(level, message);
 		history.push_back(logformatted);
 		save();
 		GEventManager.PostOutputCtrlEvent(logformatted);
 	}
+	// Check if message is Debug and Debug is NOT enabled
 	else if (level == debug && debugmode == false) {
 		return;
 	}
+	// If message is not debug
 	else {
 		std::string logformatted = format(level, message);
 		history.push_back(logformatted);
@@ -23,21 +27,33 @@ void logger::add(loglevel level, const std::string& message) {
 		GEventManager.PostOutputCtrlEvent(logformatted);
 	}
 }
-logger::logger() {
-	std::ifstream debugcheck("debugmode.txt");
-	if (!debugcheck.is_open()) {
-		return;
-	}
-	else {
-		debugmode& (true);
-		add(debug, "Moonbridge started in debug mode.");
-	}
-}
+logger::logger() {}
+
 logger::~logger() {
-	add(debug, "logger module stop function called!!!");
 	save();
 	
 }
+// Start function
+void logger::start() {
+	if (!Started) {
+		std::ifstream settingsfile("settings.json");
+		if (settingsfile.is_open()) {
+			nlohmann::json loadedsettings;
+			settingsfile >> loadedsettings;
+			settingsfile.close();
+			if (loadedsettings.contains("DebugMode") && loadedsettings["DebugMode"] == "true") {
+				debugmode = true;
+				Started = true;
+				return;
+			}
+		}
+		else {
+			debugmode = false;
+			Started = true;
+		}
+	}
+}
+
 // save
 void logger::save() {
 	std::string filename = date() + ".txt";
@@ -46,7 +62,6 @@ void logger::save() {
 		for (const auto& item : history)
 			logfile << item << std::endl;
 	logfile.close();
-	add(debug, "log file saved.");
 }
 // time
 std::string logger::time() {

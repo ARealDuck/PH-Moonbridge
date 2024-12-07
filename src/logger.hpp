@@ -19,8 +19,10 @@ class logger
 public:
 	logger();
 	~logger();
+	void start();
 	void add(loglevel level, const std::string& message);
 private:
+	bool Started = false;
 	bool debugmode = false;
 	std::string message;
 	std::string time();

@@ -8,6 +8,7 @@ namespace settingsvar {
 	std::string OBSPassword = "defaulted";
 	std::string OBSPort = "4455";
 	std::string OBSUrl = "ws://localhost:";
+	std::string DebugMode = "False";
 }
 
 settings::settings() {
@@ -22,6 +23,7 @@ settings::~settings() {
 		SettingsToSave["OBSPassword"] = settingsvar::OBSPassword;
 		SettingsToSave["OBSPort"] = settingsvar::OBSPort;
 		SettingsToSave["OBSUrl"] = settingsvar::OBSUrl;
+		SettingsToSave["DebugMode"] = settingsvar::DebugMode;
 
 		std::ofstream outputfile("settings.json");
 		if (outputfile.is_open()) {
@@ -53,6 +55,7 @@ void settings::loadsettings() {
 			settingsvar::OBSPassword = loadedsettings["OBSPassword"];
 			settingsvar::OBSPort = loadedsettings["OBSPort"];
 			settingsvar::OBSUrl = loadedsettings["OBSUrl"];
+			settingsvar::DebugMode = loadedsettings["DebugMode"];
 			isSettingsLoaded = true;
 		}
 	}

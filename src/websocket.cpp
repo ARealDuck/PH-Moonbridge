@@ -26,7 +26,8 @@ void wsTunnel::start() {
 				tunneliocontext.run();
 			}
 			catch (const std::exception& e) {
-				GLogger.add(crit, "Websocket Tunnel Failed to start!!!");
+				std::string error = e.what();
+				GLogger.add(crit, "IOTunnel Ran into an exception!" + error);
 			}
 		}
 
@@ -50,23 +51,31 @@ wsTunnel tunnel;
 
 wsClient::wsClient() : ws_client_() {
 	ws_client_.init_asio(&tunnel.getiocontext());
+	GLogger.add(debug, "IOTunnel reference obtained.");
 	ws_client_.start_perpetual();
+	GLogger.add(debug, "Perpetual endpoint started.");
 	ws_client_.set_message_handler([this](websocketpp::connection_hdl, Client::message_ptr msg) {
 		msghandle(msg->get_payload());
 		});
-
+	GLogger.add(debug, "Message handler set.");
 }
 
 void wsClient::connect(clientsync& syncdata) {
+	GLogger.add(debug, "Starting websocket connection.");
 	websocketpp::lib::error_code ec;
+	GLogger.add(debug, "Settings Checked for URL and Port... Got: " + settingsvar::OBSUrl + " " + settingsvar::OBSPort);
 	std::string wsurl = settingsvar::OBSUrl + settingsvar::OBSPort;
+	GLogger.add(debug, "Creating WebsocketURL for Connection, Final URL:" + wsurl);
 	Client::connection_ptr con = ws_client_.get_connection(wsurl, ec);
+	GLogger.add(debug, "Setting Connection pointer and getting handle");
 	if (ec) {
 		GLogger.add(info, "Client Failed to connect!");
 		return;
 	}
 	handle = con->get_handle();
+	GLogger.add(debug, "Handle Obtained, Starting connection...");
 	ws_client_.connect(con);
+	GLogger.add(debug, "Connection Started!");
 	{
 		std::lock_guard<std::mutex> lock(syncdata.clientmtx);
 		syncdata.ready = true;

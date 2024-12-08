@@ -55,17 +55,26 @@ wsClient::wsClient() : ws_client_() {
 	ws_client_.start_perpetual();
 	GLogger.add(debug, "Perpetual endpoint started.");
 	ws_client_.set_message_handler([this](websocketpp::connection_hdl, Client::message_ptr msg) {
-		msghandle(msg->get_payload());
+		asio::post(tunnel.getiocontext(), [msg, this]() {
+			msghandle(msg->get_payload()); 
+			});
 		});
 	GLogger.add(debug, "Message handler set.");
+	ws_client_.set_fail_handler([](websocketpp::connection_hdl) {
+		GLogger.add(crit, "Connection Failed!");
+		});
+	ws_client_.set_close_handler([](websocketpp::connection_hdl) {
+		GLogger.add(info, "Connection closed by server, Restarting...");
+		// Implement wait timer before restart here.
+		});
 }
 
 void wsClient::connect(clientsync& syncdata) {
 	GLogger.add(debug, "Starting websocket connection.");
 	websocketpp::lib::error_code ec;
-	GLogger.add(debug, "Settings Checked for URL and Port... Got: " + settingsvar::OBSUrl + " " + settingsvar::OBSPort);
+	GLogger.add(debug, "Settings Checked for URL and Port... Got: " + settingsvar::OBSUrl + "and " + settingsvar::OBSPort);
 	std::string wsurl = settingsvar::OBSUrl + settingsvar::OBSPort;
-	GLogger.add(debug, "Creating WebsocketURL for Connection, Final URL:" + wsurl);
+	GLogger.add(debug, "Creating WebsocketURL for Connection, Final URL: " + wsurl);
 	Client::connection_ptr con = ws_client_.get_connection(wsurl, ec);
 	GLogger.add(debug, "Setting Connection pointer and getting handle");
 	if (ec) {
@@ -84,10 +93,14 @@ void wsClient::connect(clientsync& syncdata) {
 }
 
 nlohmann::json wsClient::sendmsg(const nlohmann::json& message) {
+	GLogger.add(debug, "Websocket sendmsg function called... Preparing Message.");
 	std::unique_lock <std::mutex> lock(responsemtx);
 	std::string msg = message.dump();
+	GLogger.add(debug, "Message prepared, Sending message.");
 	ws_client_.send(handle, msg, websocketpp::frame::opcode::text);
+	GLogger.add(debug, "Message Sent, waiting for response...");
 	responsecv.wait(lock, [this] {return responseready; });
+	GLogger.add(debug, "Response Caught! checking response!");
 	responseready = false;
 	return lastreponse;
 }
@@ -96,8 +109,11 @@ void wsClient::msghandle(const std::string& reponse) {
 	std::lock_guard<std::mutex>lock(responsemtx);
 	try {
 		lastreponse = nlohmann::json::parse(reponse);
+		GLogger.add(debug, "Message obtained: " + reponse);
 		if (lastreponse.contains("op") && lastreponse["op"] == "0") {
+			GLogger.add(debug, "Opcode identified as 0.");
 			if (lastreponse.contains("d") && lastreponse["d"].contains("authentication")) {
+				GLogger.add(debug, "OBS requires auth, making authkey for response.");
 				std::string challenge = lastreponse["d"]["authentication"]["challenge"];
 				std::string salt = lastreponse["d"]["authentication"]["salt"];
 				std::string authstring = createauth(challenge, salt);
@@ -111,6 +127,7 @@ void wsClient::msghandle(const std::string& reponse) {
 				sendmsg(identifymsg);
 			}
 			else {
+				GLogger.add(debug, "OBS Does not require auth, sending normal response.");
 				nlohmann::json identifymsg;
 				identifymsg["op"] = "1";
 				identifymsg["d"] = {
@@ -129,6 +146,7 @@ void wsClient::msghandle(const std::string& reponse) {
 		GLogger.add(warn, "Failed to parse a Websocket message! Bug is likely to occur!!!");
 		lastreponse = nlohmann::json{};
 	}
+	GLogger.add(debug, "Handshake opcodes not found. Setting response as ready.");
 	responseready = true;
 	responsecv.notify_one();
 }

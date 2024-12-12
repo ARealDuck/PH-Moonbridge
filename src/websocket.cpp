@@ -7,75 +7,30 @@
 #include <cryptopp/filters.h>
 #include <cryptopp/files.h>
 
-wsTunnel::wsTunnel() : tunneliocontext(), WorkGuard_(asio::make_work_guard(tunneliocontext)), running_(false) {
-	ws_client_.init_asio(&tunneliocontext);
-}
-
-
-void wsTunnel::start() {
-	running_ = true;
-	GLogger.add(debug, "Starting Websocket I/O Tunnel.");
-	GThreadPool.submit([this]() {
-		while (running_) {
-			try {
-				if (tunneliocontext.stopped()) {
-					GLogger.add(info, "iocontext signaled as stopped, resetting.");
-					tunneliocontext.reset();
-				}
-				GLogger.add(info, "Attempting to run iocontext.");
-				tunneliocontext.run();
-			}
-			catch (const std::exception& e) {
-				std::string error = e.what();
-				GLogger.add(crit, "IOTunnel Ran into an exception!" + error);
-			}
-		}
-
+Websocket::Websocket(asio::io_context& io_context) {
+	GLogger.add(debug, "websocket client creation started.");
+	wsClient.init_asio(&io_context);
+	GLogger.add(debug, "Setting Websocket Handlers...");
+	wsClient.set_message_handler([this](websocketpp::connection_hdl, Client::message_ptr msg) {
+		msghandle(msg->get_payload());
 		});
-
-}
-
-void wsTunnel::stop() {
-	running_ = false;
-	tunneliocontext.stop();
-	GLogger.add(info, "iocontext stopped.");
-	WorkGuard_.reset();
-	ws_client_.stop();
-}
-
-asio::io_context& wsTunnel::getiocontext() {
-	return tunneliocontext;
-}
-
-wsTunnel tunnel;
-
-wsClient::wsClient() : ws_client_() {
-	ws_client_.init_asio(&tunnel.getiocontext());
-	GLogger.add(debug, "IOTunnel reference obtained.");
-	ws_client_.start_perpetual();
-	GLogger.add(debug, "Perpetual endpoint started.");
-	ws_client_.set_message_handler([this](websocketpp::connection_hdl, Client::message_ptr msg) {
-		asio::post(tunnel.getiocontext(), [msg, this]() {
-			msghandle(msg->get_payload()); 
-			});
-		});
-	GLogger.add(debug, "Message handler set.");
-	ws_client_.set_fail_handler([](websocketpp::connection_hdl) {
+	wsClient.set_fail_handler([](websocketpp::connection_hdl) {
 		GLogger.add(crit, "Connection Failed!");
 		});
-	ws_client_.set_close_handler([](websocketpp::connection_hdl) {
+	wsClient.set_close_handler([](websocketpp::connection_hdl) {
 		GLogger.add(info, "Connection closed by server, Restarting...");
 		// Implement wait timer before restart here.
 		});
+	GLogger.add(debug, "websocket client created.");
 }
 
-void wsClient::connect(clientsync& syncdata) {
+void Websocket::connect(clientsync& syncdata) {
 	GLogger.add(debug, "Starting websocket connection.");
 	websocketpp::lib::error_code ec;
 	GLogger.add(debug, "Settings Checked for URL and Port... Got: " + settingsvar::OBSUrl + "and " + settingsvar::OBSPort);
 	std::string wsurl = settingsvar::OBSUrl + settingsvar::OBSPort;
 	GLogger.add(debug, "Creating WebsocketURL for Connection, Final URL: " + wsurl);
-	Client::connection_ptr con = ws_client_.get_connection(wsurl, ec);
+	Client::connection_ptr con = wsClient.get_connection(wsurl, ec);
 	GLogger.add(debug, "Setting Connection pointer and getting handle");
 	if (ec) {
 		GLogger.add(info, "Client Failed to connect!");
@@ -83,7 +38,7 @@ void wsClient::connect(clientsync& syncdata) {
 	}
 	handle = con->get_handle();
 	GLogger.add(debug, "Handle Obtained, Starting connection...");
-	ws_client_.connect(con);
+	wsClient.connect(con);
 	GLogger.add(debug, "Connection Started!");
 	{
 		std::lock_guard<std::mutex> lock(syncdata.clientmtx);
@@ -92,12 +47,12 @@ void wsClient::connect(clientsync& syncdata) {
 	syncdata.clientcv.notify_one();
 }
 
-nlohmann::json wsClient::sendmsg(const nlohmann::json& message) {
+nlohmann::json Websocket::sendmsg(const nlohmann::json& message) {
 	GLogger.add(debug, "Websocket sendmsg function called... Preparing Message.");
 	std::unique_lock <std::mutex> lock(responsemtx);
 	std::string msg = message.dump();
 	GLogger.add(debug, "Message prepared, Sending message.");
-	ws_client_.send(handle, msg, websocketpp::frame::opcode::text);
+	wsClient.send(handle, msg, websocketpp::frame::opcode::text);
 	GLogger.add(debug, "Message Sent, waiting for response...");
 	responsecv.wait(lock, [this] {return responseready; });
 	GLogger.add(debug, "Response Caught! checking response!");
@@ -105,13 +60,13 @@ nlohmann::json wsClient::sendmsg(const nlohmann::json& message) {
 	return lastreponse;
 }
 
-void wsClient::msghandle(const std::string& reponse) {
+void Websocket::msghandle(const std::string& reponse) {
 	std::lock_guard<std::mutex>lock(responsemtx);
 	try {
 		lastreponse = nlohmann::json::parse(reponse);
 		GLogger.add(debug, "Message obtained: " + reponse);
-		if (lastreponse.contains("op") && lastreponse["op"] == "0") {
-			GLogger.add(debug, "Opcode identified as 0.");
+		if (!handshake) {
+			GLogger.add(debug, "Successfully connected to OBS Websocket, Starting handshake.");
 			if (lastreponse.contains("d") && lastreponse["d"].contains("authentication")) {
 				GLogger.add(debug, "OBS requires auth, making authkey for response.");
 				std::string challenge = lastreponse["d"]["authentication"]["challenge"];
@@ -151,19 +106,12 @@ void wsClient::msghandle(const std::string& reponse) {
 	responsecv.notify_one();
 }
 
-bool wsClient::checkcon() {
+bool Websocket::checkcon() const {
 	return handshake;
 }
 
-//creates a unique id
-std::string wsClient::createid() {
-	auto now = std::chrono::system_clock::now();
-	auto millis = std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count();
-	return "req" + std::to_string(millis);
-}
-
 //authkey creation
-std::string wsClient::createauth(std::string& challenge, std::string& salt) {
+std::string Websocket::createauth(std::string& challenge, std::string& salt) {
 	std::string password = settingsvar::OBSPassword;
 	std::string input = password + salt;
 

@@ -17,9 +17,8 @@ bool Moonbridgeapp::OnInit() {
 	MoonbridgeWin *frame = new MoonbridgeWin(nullptr);
 	frame->Show(true);
 	GLogger.start();
-	tunnel.start();
 	clientsync clientsync;
-	wsClient runtimeclient;
+	Websocket runtimeclient;
 	runtimeclient.connect(clientsync);
 	return true;
 }

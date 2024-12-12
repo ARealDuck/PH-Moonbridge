@@ -2,9 +2,9 @@
 #define WEBSOCKET_HPP
 
 #define ASIO_STANDALONE
-#include <asio/io_context.hpp>
+#include <asio.hpp>
 #include <websocketpp/client.hpp>
-#include <websocketpp/config/asio_client.hpp>
+#include <websocketpp/config/asio_no_tls_client.hpp>
 #include <memory>
 #include <nlohmann/json.hpp>
 #include "clientsync.hpp"
@@ -14,37 +14,15 @@
 
 typedef websocketpp::client<websocketpp::config::asio_client> Client;
 
-class wsTunnel {
+class Websocket {
 public:
-	wsTunnel();
-
-	void start();
-
-	void stop();
-
-	asio::io_context& getiocontext();
-
-private:
-	asio::io_context tunneliocontext;
-	asio::executor_work_guard<asio::io_context::executor_type> WorkGuard_;
-	Client ws_client_;
-	std::atomic<bool> running_;
-
-};
-
-extern wsTunnel tunnel;
-
-class wsClient {
-public:
-	wsClient();
+	Websocket(asio::io_context& io_context);
 	void connect(clientsync&);
 	nlohmann::json sendmsg(const nlohmann::json& message);
 	void msghandle(const std::string& reponse);
-	bool checkcon();
-	std::string createid();
-
+	bool checkcon() const;
 private:
-	Client ws_client_;
+	Client wsClient;
 	websocketpp::connection_hdl handle;
 	std::mutex responsemtx;
 	std::condition_variable responsecv;

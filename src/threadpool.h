@@ -29,8 +29,9 @@ public:
 	template <typename Func>
 	void submit(Func&& func) {
 		GLogger.add(info, "Function passed, Executing.");
-		boost::asio::post(io_context, std::forward<Func>(func));
+		asio::post(io_context, std::forward<Func>(func));
 	}
+	asio::io_context& GetIOContext();
 private:
 	asio::io_context io_context;
 	asio::executor_work_guard<asio::io_context::executor_type> work_guard;

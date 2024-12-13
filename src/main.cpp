@@ -18,7 +18,7 @@ bool Moonbridgeapp::OnInit() {
 	frame->Show(true);
 	GLogger.start();
 	clientsync clientsync;
-	Websocket runtimeclient;
+	Websocket runtimeclient(GThreadPool.GetIOContext());
 	runtimeclient.connect(clientsync);
 	return true;
 }

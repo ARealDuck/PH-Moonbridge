@@ -9,6 +9,7 @@
 
 void logger::add(loglevel level, const std::string& message) {
 	// Check if message is Debug and Debugging is enabled
+	std::lock_guard<std::mutex> lock(mtx);
 	if (level == debug && debugmode == true) {
 		std::string logformatted = format(level, message);
 		history.push_back(logformatted);

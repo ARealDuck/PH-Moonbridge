@@ -12,4 +12,8 @@ ThreadPool::~ThreadPool() {
 	}
 }
 
+asio::io_context& ThreadPool::GetIOContext() {
+	return io_context;
+}
+
 ThreadPool GThreadPool;

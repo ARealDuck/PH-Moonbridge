@@ -10,6 +10,7 @@
 Websocket::Websocket(asio::io_context& io_context) {
 	GLogger.add(debug, "websocket client creation started.");
 	wsClient.init_asio(&io_context);
+	wsClient.start_perpetual();
 	GLogger.add(debug, "Setting Websocket Handlers...");
 	wsClient.set_message_handler([this](websocketpp::connection_hdl, Client::message_ptr msg) {
 		msghandle(msg->get_payload());
@@ -44,6 +45,7 @@ void Websocket::connect(clientsync& syncdata) {
 		std::lock_guard<std::mutex> lock(syncdata.clientmtx);
 		syncdata.ready = true;
 	}
+	handshake = false;
 	syncdata.clientcv.notify_one();
 }
 
@@ -51,8 +53,15 @@ nlohmann::json Websocket::sendmsg(const nlohmann::json& message) {
 	GLogger.add(debug, "Websocket sendmsg function called... Preparing Message.");
 	std::unique_lock <std::mutex> lock(responsemtx);
 	std::string msg = message.dump();
-	GLogger.add(debug, "Message prepared, Sending message.");
-	wsClient.send(handle, msg, websocketpp::frame::opcode::text);
+	GLogger.add(debug, "Message Prepared, Size: "+std::to_string(msg.size())+" bytes");
+	try {
+		wsClient.send(handle, msg, websocketpp::frame::opcode::text);
+	}
+	catch (const websocketpp::exception& e) {
+		std::string errorwhat = e.what();
+		GLogger.add(error, "Error sending websocket message: " + errorwhat);
+		throw;
+	}
 	GLogger.add(debug, "Message Sent, waiting for response...");
 	responsecv.wait(lock, [this] {return responseready; });
 	GLogger.add(debug, "Response Caught! checking response!");
@@ -65,7 +74,7 @@ void Websocket::msghandle(const std::string& reponse) {
 	try {
 		lastreponse = nlohmann::json::parse(reponse);
 		GLogger.add(debug, "Message obtained: " + reponse);
-		if (!handshake) {
+		if (handshake==false) {
 			GLogger.add(debug, "Successfully connected to OBS Websocket, Starting handshake.");
 			if (lastreponse.contains("d") && lastreponse["d"].contains("authentication")) {
 				GLogger.add(debug, "OBS requires auth, making authkey for response.");

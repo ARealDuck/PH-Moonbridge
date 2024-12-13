@@ -5,6 +5,7 @@
 #include "winmain.hpp"
 #include <string>
 #include <vector>
+#include <mutex>
 
 enum loglevel {
 	info,
@@ -24,6 +25,7 @@ public:
 private:
 	bool Started = false;
 	bool debugmode = false;
+	std::mutex mtx;
 	std::string message;
 	std::string time();
 	std::string date();

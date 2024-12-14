@@ -18,18 +18,24 @@ class Websocket {
 public:
 	Websocket(asio::io_context& io_context);
 	void connect(clientsync&);
-	nlohmann::json sendmsg(const nlohmann::json& message);
-	void msghandle(const std::string& reponse);
-	bool checkcon() const;
+	void messagesend(const std::string& message);
+	void messagehandle(const std::string& reponse);
 private:
+	bool responsewait;
 	Client wsClient;
+	asio::io_context wsiocontext;
 	websocketpp::connection_hdl handle;
 	std::mutex responsemtx;
 	std::condition_variable responsecv;
+	std::mutex connectionmtx;
+	std::condition_variable connectioncv;
 	bool responseready = false;
 	nlohmann::json lastreponse;
 	bool handshake = false;
 	std::string createauth(std::string& challenge, std::string& salt);
+	std::string obsurl;
+	std::string obsport;
+	std::string obspass;
 };
 
 #endif // !WEBSOCKET_HPP

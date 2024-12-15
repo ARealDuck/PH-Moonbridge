@@ -7,18 +7,14 @@
 #include <cryptopp/filters.h>
 #include <cryptopp/files.h>
 
-Websocket::Websocket(asio::io_context& io_context) {
+Websocket::Websocket(asio::io_context& io_context) : connected(false), handshake(false), responsewait(false) {
 	wsClient.init_asio(&io_context);
 	wsClient.start_perpetual();
 	wsClient.set_message_handler([this](websocketpp::connection_hdl, Client::message_ptr msg) {
-		msghandle(msg->get_payload());
+		messagesend(msg->get_payload());
 		});
 	wsClient.set_fail_handler([](websocketpp::connection_hdl) {
 		GLogger.add(crit, "Connection Failed!");
-		});
-	wsClient.set_close_handler([](websocketpp::connection_hdl) {
-		GLogger.add(info, "Connection closed by server, Restarting...");
-		// Implement wait timer before restart here.
 		});
 }
 
@@ -57,7 +53,71 @@ void Websocket::messagesend(const std::string& message) {
 }
 
 void Websocket::messagehandle(const std::string& reponse) {
-	std::lock_guard 
+	std::lock_guard<std::mutex> lock(responsemtx);
+	GLogger.add(debug, "recieved message: " + reponse);
+	lastreponse = nlohmann::json::parse(reponse);
+	responsewait = false;
+	responsecv.notify_all();
+	if (!handshake) {
+		handshakeprotocol(reponse);
+	}
+}
+
+void Websocket::onopen(websocketpp::connection_hdl hdl) {
+	std::lock_guard<std::mutex> lock(connectionmtx);
+	handshake = false;
+	connected = true;
+	connectioncv.notify_all();
+}
+
+void Websocket::onclose(websocketpp::connection_hdl hdl) {
+	std::lock_guard<std::mutex> lock(connectionmtx);
+	handshake = false;
+	connected = false;
+	connectioncv.notify_all();
+}
+
+void Websocket::closecon() {
+	websocketpp::lib::error_code ec;
+	wsClient.close(handle, websocketpp::close::status::normal, "Client Closed.", ec);
+	if (ec) {
+		std::string ercode = ec.message();
+		GLogger.add(error, "Websocket ran into an error while closing connection: " + ercode);
+	}
+}
+
+void Websocket::handshakeprotocol(std::string message) {
+	nlohmann::json parsemsg = nlohmann::json::parse(message);
+	bool authreq = false;
+	if (parsemsg.contains("op") && parsemsg ["op"]==0) {
+		if (parsemsg.contains("d")) {
+			auto details = parsemsg["d"];
+			if (details.contains("obsWebSocketVersion")) {
+				std::string version = details["obsWebSocketVersion"];
+				GLogger.add(debug, "obs websocket version is: " + version);
+			}
+			if (details.contains("authentication")) {
+				GLogger.add(debug, "OBS requires authentication...");
+				std::string salt = details["authentication"]["salt"];
+				std::string challenge = details["authentication"]["challenge"];
+				authreq = true;
+			}
+			else {
+				GLogger.add(debug, "OBS does not require authentication...");
+			}
+		}
+		GLogger.add(debug, "preforming handshake logic...");
+		nlohmann::json identifymsg;
+		identifymsg["rpcVersion"] = 1;
+		identifymsg["d"] = {
+
+		}
+
+	}
+	else {
+		GLogger.add(error, "OBS send a nonhandshake message before handshake process is done, this will cause a bug!");
+		throw;
+	}
 }
 
 

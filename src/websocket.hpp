@@ -20,22 +20,29 @@ public:
 	void connect(clientsync&);
 	void messagesend(const std::string& message);
 	void messagehandle(const std::string& reponse);
+	void onopen(websocketpp::connection_hdl hdl);
+	void onclose(websocketpp::connection_hdl hdl);
+	void closecon();
+	void handshakeprotocol(std::string message);
 private:
-	bool responsewait;
+	//client setup
 	Client wsClient;
 	asio::io_context wsiocontext;
 	websocketpp::connection_hdl handle;
-	std::mutex responsemtx;
-	std::condition_variable responsecv;
-	std::mutex connectionmtx;
-	std::condition_variable connectioncv;
-	bool responseready = false;
-	nlohmann::json lastreponse;
-	bool handshake = false;
+	bool handshake;
 	std::string createauth(std::string& challenge, std::string& salt);
 	std::string obsurl;
 	std::string obsport;
 	std::string obspass;
+	// Message sync
+	bool responsewait;
+	std::mutex responsemtx;
+	std::condition_variable responsecv;
+	nlohmann::json lastreponse;
+	//connection state
+	std::mutex connectionmtx;
+	std::condition_variable connectioncv;
+	bool connected;
 };
 
 #endif // !WEBSOCKET_HPP

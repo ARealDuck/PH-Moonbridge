@@ -1,21 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="src\main.cpp">
-      <Filter>src</Filter>
-    </ClCompile>
-    <ClCompile Include="src\sceneswitcher.cpp">
-      <Filter>src\Parts currently being worked on</Filter>
-    </ClCompile>
-    <ClCompile Include="src\threadpool.cpp">
-      <Filter>src\Misc</Filter>
-    </ClCompile>
-    <ClCompile Include="src\websocket.cpp">
-      <Filter>src\OBSWebsocket</Filter>
-    </ClCompile>
-    <ClCompile Include="src\logger.cpp">
-      <Filter>src\Misc</Filter>
-    </ClCompile>
     <ClCompile Include="src\settings.cpp">
       <Filter>src\Misc</Filter>
     </ClCompile>
@@ -31,23 +16,11 @@
     <ClCompile Include="src\eventmanager.cpp">
       <Filter>src\Frontend</Filter>
     </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\sceneswitcher.hpp">
-      <Filter>src\Parts currently being worked on</Filter>
-    </ClInclude>
-    <ClInclude Include="src\clientsync.hpp">
-      <Filter>src\Misc</Filter>
-    </ClInclude>
-    <ClInclude Include="src\threadpool.h">
-      <Filter>src\Misc</Filter>
-    </ClInclude>
-    <ClInclude Include="src\websocket.hpp">
-      <Filter>src\OBSWebsocket</Filter>
-    </ClInclude>
-    <ClInclude Include="src\logger.hpp">
-      <Filter>src\Misc</Filter>
-    </ClInclude>
     <ClInclude Include="src\settings.hpp">
       <Filter>src\Misc</Filter>
     </ClInclude>
@@ -68,14 +41,8 @@
     <Filter Include="src">
       <UniqueIdentifier>{662df459-c80b-4eed-a2cb-6a606108d444}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\Parts currently being worked on">
-      <UniqueIdentifier>{04e36f52-ae50-4f0f-9186-c7d18bfd692d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\Misc">
       <UniqueIdentifier>{13d83c88-0c19-49be-b988-40c52801d043}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="src\OBSWebsocket">
-      <UniqueIdentifier>{65798087-aa7c-408b-85a1-5a3562411c20}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\Frontend">
       <UniqueIdentifier>{d63d2dff-c799-4ee1-875f-f4c65e8514b9}</UniqueIdentifier>

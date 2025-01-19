@@ -1,9 +1,15 @@
 #include <wx/wx.h>
+#include <spdlog/async.h>
+#include <spdlog/sinks/basic_file_sink.h>
+#include <ctime>
+#include <chrono>
 #include "winmain.hpp"
-#include "logger.hpp"
-#include "threadpool.h"
-#include "websocket.hpp"
-#include "clientsync.hpp"
+
+std::string getcurrenttime() {
+	auto now = std::chrono::system_clock::now();
+	std::time_t CurrentTime = std::chrono::system_clock::to_time_t(now);
+	return std::ctime(&CurrentTime);
+}
 
 class Moonbridgeapp : public wxApp {
 public:
@@ -14,13 +20,11 @@ public:
 wxIMPLEMENT_APP(Moonbridgeapp);
 
 bool Moonbridgeapp::OnInit() {
-	MoonbridgeWin *frame = new MoonbridgeWin(nullptr);
+	MoonbridgeWin* frame = new MoonbridgeWin(nullptr);
 	frame->Show(true);
-	GLogger.start();
-	clientsync clientsync;
-	GLogger.add(debug, "starting websocket client");
-	Websocket runtimeclient(GThreadPool.GetIOContext());
-	GLogger.add(debug, "starting websocket connection...");
-	runtimeclient.connect(clientsync);
+	auto async_file = spdlog::basic_logger_mt<spdlog::async_factory>("Async Logger", "LogFile " + getcurrenttime()+".txt");
 	return true;
 }
+
+
+

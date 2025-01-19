@@ -5,6 +5,7 @@
     "cryptopp",
     "nlohmann-json",
     "websocketpp",
-    "wxwidgets"
+    "wxwidgets",
+    "spdlog"
   ]
 }

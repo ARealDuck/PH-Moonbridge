@@ -156,26 +156,17 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\clientsync.hpp" />
     <ClInclude Include="src\customevents.h" />
     <ClInclude Include="src\eventmanager.hpp" />
-    <ClInclude Include="src\logger.hpp" />
-    <ClInclude Include="src\sceneswitcher.hpp" />
     <ClInclude Include="src\settings.hpp" />
-    <ClInclude Include="src\threadpool.h" />
-    <ClInclude Include="src\websocket.hpp" />
     <ClInclude Include="src\winmain.hpp" />
     <ClInclude Include="src\winmainbase.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\customevents.cpp" />
     <ClCompile Include="src\eventmanager.cpp" />
-    <ClCompile Include="src\logger.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\sceneswitcher.cpp" />
     <ClCompile Include="src\settings.cpp" />
-    <ClCompile Include="src\threadpool.cpp" />
-    <ClCompile Include="src\websocket.cpp" />
     <ClCompile Include="src\winmain.cpp" />
     <ClCompile Include="src\winmainbase.cpp" />
   </ItemGroup>

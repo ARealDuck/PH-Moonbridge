@@ -19,6 +19,9 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="logger.cpp">
+      <Filter>src\Misc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\settings.hpp">
@@ -35,6 +38,9 @@
     </ClInclude>
     <ClInclude Include="src\eventmanager.hpp">
       <Filter>src\Frontend</Filter>
+    </ClInclude>
+    <ClInclude Include="logger.hpp">
+      <Filter>src\Misc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

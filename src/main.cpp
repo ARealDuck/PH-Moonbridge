@@ -1,10 +1,8 @@
 #include <wx/wx.h>
-#include<spdlog/spdlog.h>
-#include <spdlog/async.h>
-#include <spdlog/sinks/basic_file_sink.h>
 #include <ctime>
 #include <chrono>
 #include "winmain.hpp"
+#include "logger.hpp"
 
 
 
@@ -19,6 +17,7 @@ wxIMPLEMENT_APP(Moonbridgeapp);
 bool Moonbridgeapp::OnInit() {
 	MoonbridgeWin* frame = new MoonbridgeWin(nullptr);
 	frame->Show(true);
+	Logger::init;
 	return true;
 }
 

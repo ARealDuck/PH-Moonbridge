@@ -156,15 +156,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="logger.hpp" />
     <ClInclude Include="src\customevents.h" />
     <ClInclude Include="src\eventmanager.hpp" />
+    <ClInclude Include="src\logger.hpp" />
     <ClInclude Include="src\settings.hpp" />
     <ClInclude Include="src\winmain.hpp" />
     <ClInclude Include="src\winmainbase.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="logger.cpp" />
     <ClCompile Include="src\customevents.cpp" />
     <ClCompile Include="src\eventmanager.cpp" />
     <ClCompile Include="src\main.cpp" />

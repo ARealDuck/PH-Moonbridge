@@ -1,29 +1,23 @@
 #include "settings.hpp"
 
-bool settings::load() {
-    try {
-        std::ifstream settingsload(filelocation);
-        // Validate File
-        if (!settingsload.is_open()) {
-            spdlog::warn("No settings file found, Creating a new file with defaults...");
-            defaults();
-        }
-        nlohmann::json settingsjson;
-        settingsload >> settingsjson;
-        // Validate Settings
-        for (int i = 0; i < COUNT; ++i) {
-            SettingID id = static_cast<SettingID>(i);
-
+bool settings::check(std::vector<std::string>& keys) {
+    std::ifstream file(filelocation);
+    if (!file.good()) {
+        spdlog::warn("Settings file is not found... Creating new file.");
+        return false;
+    }
+    nlohmann::json jsonfile;
+    file >> jsonfile;
+    // Validate Keys
+    for (const auto& SettingKeys : keys) {
+        if (!jsonfile.contains(SettingKeys)) {
+            spdlog::warn("Settings file is found but is corrupted... Creating new file.");
+            return false;
         }
     }
-    return false;
+    return true;
 }
 
-void settings::apply(SettingID id, const nlohmann::json jsonfile) {
-    try {
-        switch (id) {
-            case OBS_PASSWORD
-                
-        }
-    }
+bool settings::load() {
+    return false;
 }

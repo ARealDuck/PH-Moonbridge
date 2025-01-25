@@ -14,7 +14,7 @@ public:
 		OBS_PASSWORD,
 		OBS_PORT,
 		OBS_URL,
-		COUNT
+		BREAK
 	};
 
 	struct SETTINGS_DEFAULT {
@@ -25,11 +25,14 @@ public:
 	};
 
 private:
-
+	bool check(std::vector<std::string>& keys);
 	bool load();
 	void apply(SettingID id, const nlohmann::json jsonfile);
 	void save();
 	void defaults();
+	std::vector<std::string> SettingKeys = {
+		"obs_password", "obs_port", "obs_url"
+	};
 	SETTINGS_DEFAULT dsettings;
 	std::string filelocation = "settings.json";
 };

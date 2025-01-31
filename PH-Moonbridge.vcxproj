@@ -160,6 +160,7 @@
     <ClInclude Include="src\eventmanager.hpp" />
     <ClInclude Include="src\logger.hpp" />
     <ClInclude Include="src\settings.hpp" />
+    <ClInclude Include="src\websocket.hpp" />
     <ClInclude Include="src\winmain.hpp" />
     <ClInclude Include="src\winmainbase.h" />
   </ItemGroup>
@@ -168,6 +169,7 @@
     <ClCompile Include="src\eventmanager.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\settings.cpp" />
+    <ClCompile Include="src\websocket.cpp" />
     <ClCompile Include="src\winmain.cpp" />
     <ClCompile Include="src\winmainbase.cpp" />
   </ItemGroup>

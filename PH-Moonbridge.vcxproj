@@ -159,6 +159,7 @@
     <ClInclude Include="src\customevents.h" />
     <ClInclude Include="src\eventmanager.hpp" />
     <ClInclude Include="src\logger.hpp" />
+    <ClInclude Include="src\sceneswitcher.hpp" />
     <ClInclude Include="src\settings.hpp" />
     <ClInclude Include="src\websocket.hpp" />
     <ClInclude Include="src\winmain.hpp" />
@@ -168,6 +169,7 @@
     <ClCompile Include="src\customevents.cpp" />
     <ClCompile Include="src\eventmanager.cpp" />
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\sceneswitcher.cpp" />
     <ClCompile Include="src\settings.cpp" />
     <ClCompile Include="src\websocket.cpp" />
     <ClCompile Include="src\winmain.cpp" />

@@ -19,6 +19,12 @@
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\websocket.cpp">
+      <Filter>src\Misc</Filter>
+    </ClCompile>
+    <ClCompile Include="src\sceneswitcher.cpp">
+      <Filter>src\Misc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\settings.hpp">
@@ -37,6 +43,12 @@
       <Filter>src\Frontend</Filter>
     </ClInclude>
     <ClInclude Include="src\logger.hpp">
+      <Filter>src\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\websocket.hpp">
+      <Filter>src\Misc</Filter>
+    </ClInclude>
+    <ClInclude Include="src\sceneswitcher.hpp">
       <Filter>src\Misc</Filter>
     </ClInclude>
   </ItemGroup>
